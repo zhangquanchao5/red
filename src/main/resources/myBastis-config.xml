@@ -4,9 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <typeAliases>
 
+    <typeAliases>
+        <package name="com.red.domain"/>
     </typeAliases>
+
     <mappers>
     </mappers>
 

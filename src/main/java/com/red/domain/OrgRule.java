@@ -1,10 +1,13 @@
 package com.red.domain;
 
+import org.apache.ibatis.type.Alias;
+
 import java.util.Date;
 
 /**
  * The type Org rule.
  */
+@Alias("Red")
 public class OrgRule {
     private Integer id;
 
