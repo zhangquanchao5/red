@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.red.dao.RefundHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.red.domain.RefundHistory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="red_id" property="redId" jdbcType="INTEGER" />
+    <result column="red_money" property="redMoney" jdbcType="INTEGER" />
+    <result column="cost_money" property="costMoney" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_id, red_id, red_money, cost_money, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from refund_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from refund_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.study.model.RefundHistory" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into refund_history (id, org_id, red_id, 
+      red_money, cost_money, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{redId,jdbcType=INTEGER}, 
+      #{redMoney,jdbcType=INTEGER}, #{costMoney,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.study.model.RefundHistory" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into refund_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="redId != null" >
+        red_id,
+      </if>
+      <if test="redMoney != null" >
+        red_money,
+      </if>
+      <if test="costMoney != null" >
+        cost_money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="redId != null" >
+        #{redId,jdbcType=INTEGER},
+      </if>
+      <if test="redMoney != null" >
+        #{redMoney,jdbcType=INTEGER},
+      </if>
+      <if test="costMoney != null" >
+        #{costMoney,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.model.RefundHistory" >
+    update refund_history
+    <set >
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="redId != null" >
+        red_id = #{redId,jdbcType=INTEGER},
+      </if>
+      <if test="redMoney != null" >
+        red_money = #{redMoney,jdbcType=INTEGER},
+      </if>
+      <if test="costMoney != null" >
+        cost_money = #{costMoney,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.study.model.RefundHistory" >
+    update refund_history
+    set org_id = #{orgId,jdbcType=INTEGER},
+      red_id = #{redId,jdbcType=INTEGER},
+      red_money = #{redMoney,jdbcType=INTEGER},
+      cost_money = #{costMoney,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

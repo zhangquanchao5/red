@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.red.dao.OrgRuleMapper" >
+  <resultMap id="BaseResultMap" type="com.red.domain.OrgRule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="red_count" property="redCount" jdbcType="INTEGER" />
+    <result column="average_price" property="averagePrice" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="BIT" />
+    <result column="receive_red_seq" property="receiveRedSeq" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="VARCHAR" />
+    <result column="exprie_time" property="exprieTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, org_id, red_count, average_price, type, receive_red_seq, cost, exprie_time, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from org_rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from org_rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.study.model.OrgRule" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into org_rule (id, org_id, red_count, 
+      average_price, type, receive_red_seq, 
+      cost, exprie_time, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{redCount,jdbcType=INTEGER}, 
+      #{averagePrice,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{receiveRedSeq,jdbcType=INTEGER}, 
+      #{cost,jdbcType=VARCHAR}, #{exprieTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.study.model.OrgRule" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into org_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="redCount != null" >
+        red_count,
+      </if>
+      <if test="averagePrice != null" >
+        average_price,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="receiveRedSeq != null" >
+        receive_red_seq,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="exprieTime != null" >
+        exprie_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="redCount != null" >
+        #{redCount,jdbcType=INTEGER},
+      </if>
+      <if test="averagePrice != null" >
+        #{averagePrice,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="receiveRedSeq != null" >
+        #{receiveRedSeq,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=VARCHAR},
+      </if>
+      <if test="exprieTime != null" >
+        #{exprieTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.model.OrgRule" >
+    update org_rule
+    <set >
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="redCount != null" >
+        red_count = #{redCount,jdbcType=INTEGER},
+      </if>
+      <if test="averagePrice != null" >
+        average_price = #{averagePrice,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="receiveRedSeq != null" >
+        receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=VARCHAR},
+      </if>
+      <if test="exprieTime != null" >
+        exprie_time = #{exprieTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.study.model.OrgRule" >
+    update org_rule
+    set org_id = #{orgId,jdbcType=INTEGER},
+      red_count = #{redCount,jdbcType=INTEGER},
+      average_price = #{averagePrice,jdbcType=INTEGER},
+      type = #{type,jdbcType=BIT},
+      receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=VARCHAR},
+      exprie_time = #{exprieTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
