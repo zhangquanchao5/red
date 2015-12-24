@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class DESUtils {
 
+	public static final String secretKey="qweryuio1234578ubnut2etr";
 	/**
 	 * ����
 	 * @param inStr ��Ҫ���ܵ�����
@@ -96,9 +97,11 @@ public class DESUtils {
 	}
 
 	public static void main(String[] args) {
-		String secretKey = "111111112222222233333333";
-		System.out.println(encrypt("{patternID : '1001', raq : 'test.raq'}", secretKey));
-		System.out.println(decrypt("2E65BE5BE3A34B7F7C33FD7D3B725D068BDF923EA4998BFF08DB75A911826144C6E8474C56BBCD96", secretKey));
+//		String secretKey = "111111112222222233333333";
+		System.out.println(encrypt("15201175465", secretKey));
+		System.out.println(encrypt("2", secretKey));
+		System.out.println(EncryptUtil.encrypt("15201175465"+"2", EncryptUtil.MD5));
+//		System.out.println(decrypt("2E65BE5BE3A34B7F7C33FD7D3B725D068BDF923EA4998BFF08DB75A911826144C6E8474C56BBCD96", secretKey));
 		//System.out.println(encrypt("{patternID : '0', username : 'zhangsan', password : '2'}", secretKey));
 	}
 
