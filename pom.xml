@@ -8,13 +8,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.framework.version>3.2.13.RELEASE</spring.framework.version>
-        <netty.version>3.2.9.Final</netty.version>
         <compiler.version>1.7</compiler.version>
         <version.junit>4.11</version.junit>
-        <version.sonar-maven-plugin>4.5.1</version.sonar-maven-plugin>
         <version.maven-resources-plugin>2.6</version.maven-resources-plugin>
         <version.maven-compiler-plugin>3.1</version.maven-compiler-plugin>
-        <version.jacoco-maven-plugin>0.7.2.201409121644</version.jacoco-maven-plugin>
         <slf4j.version>1.7.5</slf4j.version>
     </properties>
 
@@ -115,12 +112,7 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.7.2</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>0.11.8</version>
-            <scope>provided</scope>
-        </dependency>-->
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -131,19 +123,6 @@
             <artifactId>mail</artifactId>
             <version>1.4.5</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.apache.logging.log4j</groupId>-->
-            <!--<artifactId>log4j-api</artifactId>-->
-            <!--<version>2.1</version>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.apache.logging.log4j</groupId>-->
-            <!--<artifactId>log4j-core</artifactId>-->
-            <!--<version>2.1</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>redis.clients</groupId>
@@ -242,12 +221,12 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.2.3</version>
+            <version>3.3.0</version>
         </dependency>
 
 
