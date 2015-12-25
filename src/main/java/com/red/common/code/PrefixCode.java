@@ -67,4 +67,13 @@ public class PrefixCode {
      */
     public static final String API_MAIL_CONNACT="Mail";
 
+    /**
+     * CONTENTtYPE
+     */
+    public static final String API_CONTENT_TYPE="application/json";
+
+    /**
+     * 红包类型账本字母
+     */
+    public static final String API_ACCOUNT_RED_CODE="red";
 }

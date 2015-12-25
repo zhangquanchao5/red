@@ -7,12 +7,12 @@ import org.apache.logging.log4j.Logger;
 /**
  * The type Lifeccp logger.
  */
-public final class StudyLogger {
+public final class RedLogger {
 
     private static final Logger BUSINESS = LogManager.getLogger("businessLog");
     private static final Logger SYSTEM = LogManager.getLogger("systemLog");
 
-    private StudyLogger() {
+    private RedLogger() {
     }
 
     /**

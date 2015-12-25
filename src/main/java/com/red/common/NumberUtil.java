@@ -102,7 +102,7 @@ public final class NumberUtil {
 				value = Integer.parseInt(obj.toString().trim());
 			}
 		}catch(Exception ex){
-			StudyLogger.recSysLog(Level.ERROR, ex.getMessage(), ex);
+			RedLogger.recSysLog(Level.ERROR, ex.getMessage(), ex);
 			value = 0;
 		}
 		return value;
@@ -120,7 +120,7 @@ public final class NumberUtil {
 				value = Long.parseLong(obj.toString().trim());
 			}
 		}catch(Exception ex){
-			StudyLogger.recSysLog(Level.ERROR, ex.getMessage(), ex);
+			RedLogger.recSysLog(Level.ERROR, ex.getMessage(), ex);
 			value = 0L;
 		}
 		return value;
@@ -138,7 +138,7 @@ public final class NumberUtil {
 				value = Double.parseDouble(obj.toString().trim());
 			}
 		}catch(Exception ex){
-			StudyLogger.recSysLog(Level.ERROR, ex.getMessage(), ex);
+			RedLogger.recSysLog(Level.ERROR, ex.getMessage(), ex);
 			value = 0l;
 		}
 		return value;
@@ -221,7 +221,7 @@ public final class NumberUtil {
 				return new BigDecimal(obj.toString()).multiply(new BigDecimal(100)).toBigInteger().toString();
 			}
 		}catch(Exception e){
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 			return "0";
 		}
 	}
@@ -251,7 +251,7 @@ public final class NumberUtil {
 				return nf.format(parseLong(obj));
 			}
 		}catch(Exception e){
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 			return "0";
 		}
 	}

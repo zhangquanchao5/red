@@ -15,4 +15,6 @@ public class SplitCode {
 
     public static final String SPLIT_DIAN="\\.";
 
+    public static final String SPLIT_BLANK="";
+
 }

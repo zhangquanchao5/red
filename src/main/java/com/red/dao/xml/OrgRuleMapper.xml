@@ -146,7 +146,7 @@
     select
     <include refid="Base_Column_List" />
     from org_rule
-    where expire_time>now() and status=1
+    where expire_time  &lt; now() and status=1
   </select>
 
   <update id="updateStatusHasScan" parameterType="java.lang.Integer" >

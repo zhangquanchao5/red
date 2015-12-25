@@ -2,6 +2,8 @@ package com.red.dao;
 
 import com.red.domain.OrgRule;
 
+import java.util.List;
+
 /**
  * The interface Org rule mapper.
  */
@@ -53,4 +55,16 @@ public interface OrgRuleMapper {
      * @return the int
      */
     int updateByPrimaryKey(OrgRule record);
+
+    /**
+     * 获取所有有效的并且过期的红包规则
+     *
+     */
+    List<OrgRule> findExpireAndRunList();
+
+    /**
+     * 定时任务执行后，更改状态为已扫描
+     *
+     */
+    void updateStatusHasScan(Integer orgRuleId);
 }
