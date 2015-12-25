@@ -5,6 +5,10 @@ package com.red.common.code;
  */
 public class EntityCode {
 
+    public static final int RED_STATUS_INVALIDE = 0;
+    public static final int RED_STATUS_VALIDE = 1;
+
+
     public static final byte USER_VALIDATE=0;
     public static final byte USER_NO_VALIDATE=1;
     public static final byte USER_DELETE=2;

@@ -1,10 +1,14 @@
 package com.red.service.impl;
 
+import com.red.common.algorithm.RedListUtil;
+import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
 import com.red.common.util.MessageUtil;
 import com.red.dao.OrgRuleMapper;
+import com.red.dao.RedDetailMapper;
 import com.red.domain.OrgRule;
+import com.red.domain.RedDetail;
 import com.red.service.OrgRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +25,31 @@ public class OrgRuleServiceImpl implements OrgRuleService {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private OrgRuleMapper orgRuleMapper;
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private RedDetailMapper redDetailMapper;
 
     @Override
     public Integer createOrgRule(OrgRule orgRule) throws Exception {
+        //save Red
         checkOrgRuleFields(orgRule);
-
+        orgRule.setCreateTime(new Date());
+        orgRule.setStatus(EntityCode.RED_STATUS_VALIDE);
+        orgRule.setReceiveRedSeq(orgRule.getRedCount());
         orgRuleMapper.insertSelective(orgRule);
-        return null;
+
+        //save RedDetail
+        RedDetail redDetail;
+        int[] moneyList = RedListUtil.generate(orgRule.getAveragePrice(), orgRule.getRedCount());
+        for (int i = 0;i < moneyList.length;i++) {
+            redDetail = new RedDetail();
+            redDetail.setCreateTime(new Date());
+            redDetail.setRedId(orgRule.getId());
+            redDetail.setMoney(moneyList[i]);
+            redDetail.setIndex(i+1);
+            redDetailMapper.insertSelective(redDetail);
+        }
+        return orgRule.getId();
     }
 
     private void checkOrgRuleFields(OrgRule orgRule) throws Exception {
@@ -51,9 +73,9 @@ public class OrgRuleServiceImpl implements OrgRuleService {
             throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "type"), ErrorCode.PARAMETER_NOT_ENOUGH);
         }
 
-        if (null == orgRule.getReceiveRedSeq() || orgRule.getReceiveRedSeq() < 0) {
+        /*if (null == orgRule.getReceiveRedSeq() || orgRule.getReceiveRedSeq() < 0) {
             throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "receiveRedSeq"), ErrorCode.PARAMETER_NOT_ENOUGH);
-        }
+        }*/
 
         if (null == orgRule.getCost() || orgRule.getCost() < 0) {
             throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "cost"), ErrorCode.PARAMETER_NOT_ENOUGH);
