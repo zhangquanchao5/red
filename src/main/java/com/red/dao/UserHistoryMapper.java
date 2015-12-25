@@ -1,6 +1,9 @@
 package com.red.dao;
 
+import com.red.common.apibean.UserHistoryPageReq;
 import com.red.domain.UserHistory;
+
+import java.util.List;
 
 /**
  * The interface User history mapper.
@@ -61,4 +64,14 @@ public interface UserHistoryMapper {
      * @return the int
      */
     int findRedIdCount(Integer redId);
+
+    /**
+     * 获取查询总数
+     */
+    int findPageCount(UserHistoryPageReq userHistoryPageReq);
+
+    /**
+     * 获取查询列表
+     */
+    List<UserHistory> findPageResponse(UserHistoryPageReq userHistoryPageReq);
 }

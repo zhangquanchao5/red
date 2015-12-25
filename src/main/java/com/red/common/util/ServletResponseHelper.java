@@ -2,7 +2,8 @@ package com.red.common.util;
 
 
 import com.red.common.RedLogger;
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
+
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

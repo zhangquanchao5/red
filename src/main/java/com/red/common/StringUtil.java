@@ -1,6 +1,7 @@
 package com.red.common;
 
-import org.apache.log4j.Level;
+
+import org.apache.logging.log4j.Level;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import sun.misc.BASE64Decoder;

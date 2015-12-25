@@ -9,20 +9,20 @@
         <param-name>webAppRootKey</param-name>
         <param-value>red.root</param-value>
     </context-param>
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>classpath:log4j.properties</param-value>
-    </context-param>
-    <context-param>
-        <param-name>log4jRefreshInterval</param-name>
-        <param-value>300000</param-value>
-    </context-param>
+    <!--<context-param>-->
+        <!--<param-name>log4jConfigLocation</param-name>-->
+        <!--<param-value>classpath:log4j.properties</param-value>-->
+    <!--</context-param>-->
+    <!--<context-param>-->
+        <!--<param-name>log4jRefreshInterval</param-name>-->
+        <!--<param-value>300000</param-value>-->
+    <!--</context-param>-->
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath*:applicationContext*.xml,
-            classpath:spring-task.xml
+            classpath*:spring-task.xml
         </param-value>
     </context-param>
 

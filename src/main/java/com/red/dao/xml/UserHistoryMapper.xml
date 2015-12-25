@@ -111,4 +111,36 @@
     from user_history
     where red_id = #{redId,jdbcType=INTEGER}
   </select>
+
+
+  <select id="findPageResponse" parameterType="com.red.common.apibean.UserHistoryPageReq" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user_history uh
+    where uh.mobile=#{mobile}
+    <if test="orgId != null">
+      and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
+    </if>
+    <if test="redId != null">
+      and uh.red_id=#{redId}
+    </if>
+    order by uh.create_time DESC
+    limit #{pageStart},#{currentSize}
+  </select>
+
+  <select id="findPageCount" parameterType="com.red.common.apibean.UserHistoryPageReq" resultType="java.lang.Integer">
+    select
+    count(1)
+    from user_history uh
+    where uh.mobile=#{mobile}
+    <if test="orgId != null">
+      and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
+    </if>
+    <if test="redId != null">
+      and uh.red_id=#{redId}
+    </if>
+
+  </select>
+
+
 </mapper>

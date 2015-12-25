@@ -1,6 +1,8 @@
 package com.red.common;
 
-import org.apache.log4j.Level;
+
+
+import org.apache.logging.log4j.Level;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
