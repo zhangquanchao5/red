@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * The type Org rule.
  */
-@Alias("Red")
+@Alias("RedRule")
 public class OrgRule {
     private Integer id;
 

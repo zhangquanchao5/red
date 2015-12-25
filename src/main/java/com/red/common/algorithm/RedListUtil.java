@@ -1,14 +1,29 @@
 package com.red.common.algorithm;
 
 import java.math.BigDecimal;
+import java.util.Random;
 
 /**
  * Created by huichao on 2015/12/24.
  */
 public class RedListUtil {
 
+
+    /**
+     * Generate reds int [ ].
+     *
+     * @param price  the price
+     * @param amount the amount
+     * @return the int [ ]
+     */
+    public static int[] generate(int price, int amount) {
+        float scale = (new Random().nextInt(9)+1) / 10f;
+        return resultReturn(scale, price, price*amount, amount);
+    }
+
     public static void main(String []args){
-        int [] result=resultReturn(0.1,2,100,92);
+        //int [] result=resultReturn(0.1,2,100,92);
+        int [] result=generate(10, 5);
         int total=0;
         for(int rs:result){
             total=total+rs;

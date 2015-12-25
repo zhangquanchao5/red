@@ -22,8 +22,8 @@
     delete from user_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.red.domain.UserHistory" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+  <insert id="insert" parameterType="com.red.domain.UserHistory" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user_history (id, red_id, mobile, 
@@ -33,8 +33,8 @@
       #{money,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.red.domain.UserHistory" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+  <insert id="insertSelective" parameterType="com.red.domain.UserHistory" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user_history

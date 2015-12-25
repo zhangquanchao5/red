@@ -22,8 +22,8 @@
     delete from refund_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.red.domain.RefundHistory" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+  <insert id="insert" parameterType="com.red.domain.RefundHistory" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into refund_history (id, org_id, red_id, 
@@ -33,8 +33,8 @@
       #{redMoney,jdbcType=INTEGER}, #{costMoney,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.red.domain.RefundHistory" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+  <insert id="insertSelective" parameterType="com.red.domain.RefundHistory" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into refund_history

@@ -21,8 +21,8 @@
     delete from red_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.red.domain.RedDetail" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+  <insert id="insert" parameterType="com.red.domain.RedDetail" useGeneratedKeys="true" keyProperty="id">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into red_detail (id, red_id, money, 
@@ -30,8 +30,8 @@
     values (#{id,jdbcType=INTEGER}, #{redId,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, 
       #{index,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.red.domain.RedDetail" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+  <insert id="insertSelective" parameterType="com.red.domain.RedDetail" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into red_detail
