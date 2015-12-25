@@ -17,6 +17,12 @@
     from red_detail
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getByRedIdAndIndex" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from red_detail
+    where red_id = #{redId,jdbcType=INTEGER} and index = #{index,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from red_detail
     where id = #{id,jdbcType=INTEGER}

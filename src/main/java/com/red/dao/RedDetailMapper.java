@@ -1,6 +1,7 @@
 package com.red.dao;
 
 import com.red.domain.RedDetail;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * The interface Red detail mapper.
@@ -53,4 +54,13 @@ public interface RedDetailMapper {
      * @return the int
      */
     int updateByPrimaryKey(RedDetail record);
+
+    /**
+     * Gets by red id and index.
+     *
+     * @param redId the red id
+     * @param index the index
+     * @return the by red id and index
+     */
+    int getByRedIdAndIndex(@Param("redId") Integer redId, @Param("index") Integer index);
 }

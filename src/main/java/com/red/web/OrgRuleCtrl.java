@@ -5,6 +5,7 @@ import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
 import com.red.domain.OrgRule;
 import com.red.service.OrgRuleService;
+import com.red.service.RedDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +22,15 @@ public class OrgRuleCtrl extends BasicCtrl {
     @Autowired
     private OrgRuleService orgRuleService;
 
+    @Autowired
+    private RedDetailService redDetailService;
+
     @RequestMapping(value = "/api/reds", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage create(OrgRule orgRule) {
         ResponseMessage message = new ResponseMessage();
         try {
-            orgRuleService.createOrgRule(orgRule);
+            Integer redId = orgRuleService.createOrgRule(orgRule);
+            message.setData(redId);
             message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
@@ -61,5 +66,10 @@ public class OrgRuleCtrl extends BasicCtrl {
     @RequestMapping(value = "/api/reds", method = RequestMethod.GET)
     public void list() {
 
+    }
+
+    @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)
+    public void getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone) {
+        redDetailService.
     }
 }
