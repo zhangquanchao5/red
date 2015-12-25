@@ -21,11 +21,21 @@ public class OrgRule {
 
     private Integer receiveRedSeq;
 
-    private String cost;
+    private Integer cost;
 
     private Date exprieTime;
 
     private Date createTime;
+
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     /**
      * Gets id.
@@ -140,7 +150,7 @@ public class OrgRule {
      *
      * @return the cost
      */
-    public String getCost() {
+    public Integer getCost() {
         return cost;
     }
 
@@ -149,8 +159,8 @@ public class OrgRule {
      *
      * @param cost the cost
      */
-    public void setCost(String cost) {
-        this.cost = cost == null ? null : cost.trim();
+    public void setCost(Integer cost) {
+        this.cost = cost == null ? null : cost;
     }
 
     /**
