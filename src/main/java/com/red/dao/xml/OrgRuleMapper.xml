@@ -36,7 +36,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{redCount,jdbcType=INTEGER}, 
       #{averagePrice,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{receiveRedSeq,jdbcType=INTEGER}, 
-      #{cost,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      #{cost,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.red.domain.OrgRule" >
@@ -89,7 +89,7 @@
         #{receiveRedSeq,jdbcType=INTEGER},
       </if>
       <if test="cost != null" >
-        #{cost,jdbcType=VARCHAR},
+        #{cost,jdbcType=INTEGER},
       </if>
       <if test="expireTime != null" >
         #{expireTime,jdbcType=TIMESTAMP},
@@ -118,7 +118,7 @@
         receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
       </if>
       <if test="cost != null" >
-        cost = #{cost,jdbcType=VARCHAR},
+        cost = #{cost,jdbcType=INTEGER},
       </if>
       <if test="expireTime != null" >
         expire_time = #{expireTime,jdbcType=TIMESTAMP},
@@ -136,7 +136,7 @@
       average_price = #{averagePrice,jdbcType=INTEGER},
       type = #{type,jdbcType=BIT},
       receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
-      cost = #{cost,jdbcType=VARCHAR},
+      cost = #{cost,jdbcType=INTEGER},
       expire_time = #{expireTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -148,4 +148,10 @@
     from org_rule
     where expire_time>now() and status=1
   </select>
+
+  <update id="updateStatusHasScan" parameterType="java.lang.Integer" >
+    update org_rule
+    set status=2
+    where id = #{orgRuleId,jdbcType=INTEGER}
+  </update>
 </mapper>
