@@ -105,4 +105,10 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="findRedIdCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select sum(money)
+    from user_history
+    where red_id = #{redId,jdbcType=INTEGER}
+  </select>
 </mapper>

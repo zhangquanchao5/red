@@ -53,4 +53,12 @@ public interface UserHistoryMapper {
      * @return the int
      */
     int updateByPrimaryKey(UserHistory record);
+
+    /**
+     * 获取一个红包规则领取的总红包钱数
+     *
+     * @param redId
+     * @return the int
+     */
+    int findRedIdCount(Integer redId);
 }

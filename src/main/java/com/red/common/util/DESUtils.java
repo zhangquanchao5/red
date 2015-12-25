@@ -5,16 +5,16 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * 3DES���ܹ�����
+ * 3DES?????????
  */
 public class DESUtils {
 
 	public static final String secretKey="qweryuio1234578ubnut2etr";
 	/**
-	 * ����
-	 * @param inStr ��Ҫ���ܵ�����
-	 * @param secretKey ��Կ
-	 * @return ���ܺ������
+	 * ????
+	 * @param inStr ????????????
+	 * @param secretKey ???
+	 * @return ??????????
 	 */
 	public static String encrypt(String inStr, String secretKey) {
 		SecretKey deskey = new SecretKeySpec(secretKey.getBytes(), "DESede");
@@ -26,17 +26,17 @@ public class DESUtils {
 			outStr = byte2hex(cipher.doFinal(inStr.getBytes()));
 		} catch (Exception e) {
 			outStr = "default";
-			System.err.println("3DES����ʧ�ܣ���������[" + inStr + "]");
+			System.err.println("3DES????????????????[" + inStr + "]");
 			e.printStackTrace();
 		}
 		return outStr;
 	}
 
 	/**
-	 * ����
-	 * @param inStr ��Ҫ���ܵ�����
-	 * @param secretKey ��Կ
-	 * @return ���ܺ������
+	 * ????
+	 * @param inStr ????????????
+	 * @param secretKey ???
+	 * @return ??????????
 	 */
 	public static String decrypt(String inStr, String secretKey) {
 		SecretKey deskey = new SecretKeySpec(secretKey.getBytes(), "DESede");
@@ -48,16 +48,16 @@ public class DESUtils {
 			outStr = new String(cipher.doFinal(hex2byte(inStr)));
 		} catch (Exception e) {
 			outStr = "default";
-			System.err.println("3DES����ʧ�ܣ���������[" + inStr + "]");
+			System.err.println("3DES????????????????[" + inStr + "]");
 		//	e.printStackTrace();
 		}
 		return outStr;
 	}
 
 	/**
-	 * ת��Ϊ16�����ַ�������
-	 * @param digest ��Ҫת�����ֽ���
-	 * @return ת������ַ���
+	 * ????16?????????????
+	 * @param digest ?????????????
+	 * @return ???????????
 	 */
 	public static String byte2hex(byte[] digest) {
 		StringBuffer hs = new StringBuffer();
@@ -74,9 +74,9 @@ public class DESUtils {
 	}
 
 	/**
-	 * ʮ����ת������
-	 * @param hexStr ��ת��16�����ַ���
-	 * @return �������ֽ���
+	 * ????????????
+	 * @param hexStr ?????16?????????
+	 * @return ???????????
 	 */
 	public static byte[] hex2byte(String hexStr){
 		if (hexStr == null)

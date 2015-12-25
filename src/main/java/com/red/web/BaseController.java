@@ -4,9 +4,10 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 
 
+import com.red.common.RedLogger;
 import com.red.common.code.SplitCode;
 import com.red.common.StringUtil;
-import com.red.common.StudyLogger;
+
 import com.red.common.apibean.AuthHeaderBean;
 import com.red.common.util.MessageUtil;
 import org.apache.logging.log4j.Level;
@@ -90,14 +91,9 @@ public class BaseController {
     protected AuthHeaderBean getAuthHeader(HttpServletRequest request){
         AuthHeaderBean authHeaderBean = new AuthHeaderBean();
         String auth = request.getHeader("Authorization");
-//        if(getPlatformHeader(request).equals(PrefixCode.API_HEAD_WEB)){
-//            String decodedTicket = DESUtils.decrypt(auth, PropertiesUtil.getString("sso.secretKey"));
-//            StudyLogger.recBusinessLog("auth:[" + auth + "] encode[" + decodedTicket + "]");
-//            String[] webs = decodedTicket.split(SplitCode.SPLIT_EQULE);
-//            authHeaderBean.setUserId(Integer.parseInt(webs[0]));
-//        }else{
+
             String encode= StringUtil.getFromBASE64(auth);
-            StudyLogger.recBusinessLog("auth:[" + auth + "] encode[" + encode + "]");
+        RedLogger.recBusinessLog("auth:[" + auth + "] encode[" + encode + "]");
             String[] strs = encode.split(SplitCode.SPLIT_EQULE);
             authHeaderBean.setUserId(Integer.parseInt(strs[0]));
             authHeaderBean.setEncode(encode);
@@ -114,7 +110,7 @@ public class BaseController {
      * @return
      */
     protected String getPlatformHeader(HttpServletRequest request) {
-        StudyLogger.recBusinessLog("platform:"+request.getHeader("platform"));
+        RedLogger.recBusinessLog("platform:" + request.getHeader("platform"));
         return request.getHeader("platform");
     }
     /**
@@ -123,7 +119,7 @@ public class BaseController {
      * @param message the message
      */
     public void printLogger(String message) {
-        StudyLogger.recBusinessLog(Level.INFO, message);
+        RedLogger.recBusinessLog(Level.INFO, message);
     }
 
     /**
@@ -132,6 +128,6 @@ public class BaseController {
      * @param e the e
      */
     public void printLogger(Exception e) {
-        StudyLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
+        RedLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
     }
 }

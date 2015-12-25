@@ -1,6 +1,6 @@
 package com.red.common.util;
 
-import com.red.common.StudyLogger;
+import com.red.common.RedLogger;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
@@ -71,9 +71,9 @@ public final class PropertiesUtil {
             FileAlterationMonitor monitor = new FileAlterationMonitor(interval, observer);
             // 开始监控
             monitor.start();
-            StudyLogger.recBusinessLog("Properties Monitor has start!");
+            RedLogger.recBusinessLog("Properties Monitor has start!");
         }catch (Exception e){
-            StudyLogger.recBusinessLog(Level.ERROR, e.getMessage(),e);
+            RedLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
         }
     }
 
@@ -83,10 +83,10 @@ public final class PropertiesUtil {
     static class FileListener extends FileAlterationListenerAdaptor {
         @Override
         public void onFileChange(File file) {
-            StudyLogger.recBusinessLog("properties changed,reload properties");
+            RedLogger.recBusinessLog("properties changed,reload properties");
             properties.clear();
             loadProperties();
-            StudyLogger.recBusinessLog("reload properties done");
+            RedLogger.recBusinessLog("reload properties done");
         }
     }
 
@@ -107,7 +107,7 @@ public final class PropertiesUtil {
                 }
             }
         } catch (IOException e) {
-            StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+            RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
         }
     }
 

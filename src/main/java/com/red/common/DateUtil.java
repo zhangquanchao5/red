@@ -64,7 +64,7 @@ public final class DateUtil {
 				date = new SimpleDateFormat(format).parse(obj.toString().trim());
 			}
 		} catch (ParseException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 			date = null;
 		}
 		return date;
@@ -83,7 +83,7 @@ public final class DateUtil {
 				date = new SimpleDateFormat(format).parse(obj.toString().trim());
 			}
 		} catch (ParseException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 			date = new Date();
 		}
 		return date;
@@ -281,7 +281,7 @@ public final class DateUtil {
 		try {
 			return new SimpleDateFormat(DEFAULT_TIME_FORMAT).parse(str);
 		} catch (ParseException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 		}
 		return null;
 	}
@@ -327,7 +327,7 @@ public final class DateUtil {
 		try {
 			return new SimpleDateFormat(format).parse(str);
 		} catch (ParseException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 		}
 		return null;
 	}
@@ -344,7 +344,7 @@ public final class DateUtil {
 			Date date=new SimpleDateFormat(format).parse(str);
 			return new Timestamp(date.getTime());
 		} catch (ParseException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 		}
 		return null;
 	}

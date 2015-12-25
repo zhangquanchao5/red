@@ -1,7 +1,7 @@
 package com.red.common.util;
 
 
-import com.red.common.StudyLogger;
+import com.red.common.RedLogger;
 import org.apache.log4j.Level;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public final class ServletResponseHelper {
             response.setContentType("text/html; charset=utf-8");
             response.getWriter().write(resStr);
         } catch (IOException e) {
-                 StudyLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
+                 RedLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
         }
     }
 
@@ -43,7 +43,7 @@ public final class ServletResponseHelper {
             response.setContentType("text/xml; charset=utf-8");
             response.getWriter().write(resStr);
         } catch (IOException e) {
-            StudyLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
+            RedLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
         }
     }
 
@@ -55,12 +55,12 @@ public final class ServletResponseHelper {
      */
     public static void outUTF8ToJson(HttpServletResponse response, String resStr) {
         try {
-            StudyLogger.recBusinessLog("result:"+resStr);
+            RedLogger.recBusinessLog("result:" + resStr);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             response.getWriter().write(resStr);
         } catch (IOException e) {
-            StudyLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
+            RedLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
         }
     }
 
@@ -76,7 +76,7 @@ public final class ServletResponseHelper {
             response.setContentType("text/html; charset=gbk");
             response.getWriter().write(resStr);
         } catch (IOException e) {
-            StudyLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
+            RedLogger.recBusinessLog(Level.ERROR, e.getMessage(), e);
         }
     }
 }

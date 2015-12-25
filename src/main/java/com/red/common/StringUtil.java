@@ -127,7 +127,7 @@ public final class StringUtil {
 				}
 			}
 		} catch (Exception e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 			value = true;
 		}
 		return value;
@@ -227,10 +227,10 @@ public final class StringUtil {
 			md5.reset();
 			md5.update(value.getBytes("UTF-8"));
 		} catch (NoSuchAlgorithmException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 			System.exit(-1);
 		} catch (UnsupportedEncodingException e) {
-			StudyLogger.recSysLog(Level.ERROR, e.getMessage(), e);
+			RedLogger.recSysLog(Level.ERROR, e.getMessage(), e);
 		}
 		byte[] bytearr = md5.digest();
 		StringBuffer sb = new StringBuffer();
