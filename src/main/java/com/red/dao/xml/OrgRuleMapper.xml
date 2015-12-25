@@ -11,9 +11,10 @@
     <result column="cost" property="cost" jdbcType="VARCHAR" />
     <result column="exprie_time" property="exprieTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, org_id, red_count, average_price, type, receive_red_seq, cost, exprie_time, create_time
+    id, org_id, red_count, average_price, type, receive_red_seq, cost, exprie_time, create_time,status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,7 +26,7 @@
     delete from org_rule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.study.model.OrgRule" >
+  <insert id="insert" parameterType="com.red.domain.OrgRule" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -38,7 +39,7 @@
       #{cost,jdbcType=VARCHAR}, #{exprieTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.study.model.OrgRule" >
+  <insert id="insertSelective" parameterType="com.red.domain.OrgRule" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -98,7 +99,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.study.model.OrgRule" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.red.domain.OrgRule" >
     update org_rule
     <set >
       <if test="orgId != null" >
@@ -128,7 +129,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.model.OrgRule" >
+  <update id="updateByPrimaryKey" parameterType="com.red.domain.OrgRule" >
     update org_rule
     set org_id = #{orgId,jdbcType=INTEGER},
       red_count = #{redCount,jdbcType=INTEGER},
@@ -140,4 +141,11 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="findExpireAndRunList" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from org_rule
+    where exprie_time>now() and status=1
+  </select>
 </mapper>

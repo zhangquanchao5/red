@@ -21,7 +21,7 @@
     delete from red_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.study.model.RedDetail" >
+  <insert id="insert" parameterType="com.red.domain.RedDetail" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -30,7 +30,7 @@
     values (#{id,jdbcType=INTEGER}, #{redId,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, 
       #{index,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.study.model.RedDetail" >
+  <insert id="insertSelective" parameterType="com.red.domain.RedDetail" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -66,7 +66,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.study.model.RedDetail" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.red.domain.RedDetail" >
     update red_detail
     <set >
       <if test="redId != null" >
@@ -84,7 +84,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.model.RedDetail" >
+  <update id="updateByPrimaryKey" parameterType="com.red.domain.RedDetail" >
     update red_detail
     set red_id = #{redId,jdbcType=INTEGER},
       money = #{money,jdbcType=INTEGER},

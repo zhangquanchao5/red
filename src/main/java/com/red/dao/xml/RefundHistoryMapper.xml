@@ -22,7 +22,7 @@
     delete from refund_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.study.model.RefundHistory" >
+  <insert id="insert" parameterType="com.red.domain.RefundHistory" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -33,7 +33,7 @@
       #{redMoney,jdbcType=INTEGER}, #{costMoney,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.study.model.RefundHistory" >
+  <insert id="insertSelective" parameterType="com.red.domain.RefundHistory" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -75,7 +75,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.study.model.RefundHistory" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.red.domain.RefundHistory" >
     update refund_history
     <set >
       <if test="orgId != null" >
@@ -96,7 +96,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.model.RefundHistory" >
+  <update id="updateByPrimaryKey" parameterType="com.red.domain.RefundHistory" >
     update refund_history
     set org_id = #{orgId,jdbcType=INTEGER},
       red_id = #{redId,jdbcType=INTEGER},
