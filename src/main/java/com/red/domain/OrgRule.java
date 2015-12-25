@@ -23,7 +23,7 @@ public class OrgRule {
 
     private String cost;
 
-    private Date exprieTime;
+    private Date expireTime;
 
     private Date createTime;
 
@@ -154,21 +154,21 @@ public class OrgRule {
     }
 
     /**
-     * Gets exprie time.
+     * Gets expire time.
      *
-     * @return the exprie time
+     * @return the expire time
      */
-    public Date getExprieTime() {
-        return exprieTime;
+    public Date getExpireTime() {
+        return expireTime;
     }
 
     /**
-     * Sets exprie time.
+     * Sets expire time.
      *
-     * @param exprieTime the exprie time
+     * @param expireTime the expire time
      */
-    public void setExprieTime(Date exprieTime) {
-        this.exprieTime = exprieTime;
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
     }
 
     /**

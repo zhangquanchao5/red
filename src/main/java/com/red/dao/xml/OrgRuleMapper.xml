@@ -9,12 +9,12 @@
     <result column="type" property="type" jdbcType="BIT" />
     <result column="receive_red_seq" property="receiveRedSeq" jdbcType="INTEGER" />
     <result column="cost" property="cost" jdbcType="VARCHAR" />
-    <result column="exprie_time" property="exprieTime" jdbcType="TIMESTAMP" />
+    <result column="expire_time" property="expireTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, org_id, red_count, average_price, type, receive_red_seq, cost, exprie_time, create_time,status
+    id, org_id, red_count, average_price, type, receive_red_seq, cost, expire_time, create_time,status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,11 +32,11 @@
     </selectKey>
     insert into org_rule (id, org_id, red_count, 
       average_price, type, receive_red_seq, 
-      cost, exprie_time, create_time
+      cost, expire_time, create_time
       )
     values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{redCount,jdbcType=INTEGER}, 
       #{averagePrice,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{receiveRedSeq,jdbcType=INTEGER}, 
-      #{cost,jdbcType=VARCHAR}, #{exprieTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      #{cost,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.red.domain.OrgRule" >
@@ -64,8 +64,8 @@
       <if test="cost != null" >
         cost,
       </if>
-      <if test="exprieTime != null" >
-        exprie_time,
+      <if test="expireTime != null" >
+        expire_time,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -91,8 +91,8 @@
       <if test="cost != null" >
         #{cost,jdbcType=VARCHAR},
       </if>
-      <if test="exprieTime != null" >
-        #{exprieTime,jdbcType=TIMESTAMP},
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -120,8 +120,8 @@
       <if test="cost != null" >
         cost = #{cost,jdbcType=VARCHAR},
       </if>
-      <if test="exprieTime != null" >
-        exprie_time = #{exprieTime,jdbcType=TIMESTAMP},
+      <if test="expireTime != null" >
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -137,7 +137,7 @@
       type = #{type,jdbcType=BIT},
       receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
       cost = #{cost,jdbcType=VARCHAR},
-      exprie_time = #{exprieTime,jdbcType=TIMESTAMP},
+      expire_time = #{expireTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -146,6 +146,6 @@
     select
     <include refid="Base_Column_List" />
     from org_rule
-    where exprie_time>now() and status=1
+    where expire_time>now() and status=1
   </select>
 </mapper>
