@@ -4,12 +4,12 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SimpleDateFormatSerializer;
 
 
-import com.red.code.SplitCode;
+import com.red.common.code.SplitCode;
 import com.red.common.StringUtil;
 import com.red.common.StudyLogger;
 import com.red.common.apibean.AuthHeaderBean;
 import com.red.common.util.MessageUtil;
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
