@@ -8,7 +8,7 @@
     <result column="average_price" property="averagePrice" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="BIT" />
     <result column="receive_red_seq" property="receiveRedSeq" jdbcType="INTEGER" />
-    <result column="cost" property="cost" jdbcType="VARCHAR" />
+    <result column="cost" property="cost" jdbcType="INTEGER" />
     <result column="exprie_time" property="exprieTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />
@@ -36,7 +36,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{redCount,jdbcType=INTEGER}, 
       #{averagePrice,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{receiveRedSeq,jdbcType=INTEGER}, 
-      #{cost,jdbcType=VARCHAR}, #{exprieTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      #{cost,jdbcType=INTEGER}, #{exprieTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.red.domain.OrgRule" >
@@ -89,7 +89,7 @@
         #{receiveRedSeq,jdbcType=INTEGER},
       </if>
       <if test="cost != null" >
-        #{cost,jdbcType=VARCHAR},
+        #{cost,jdbcType=INTEGER},
       </if>
       <if test="exprieTime != null" >
         #{exprieTime,jdbcType=TIMESTAMP},
@@ -118,7 +118,7 @@
         receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
       </if>
       <if test="cost != null" >
-        cost = #{cost,jdbcType=VARCHAR},
+        cost = #{cost,jdbcType=INTEGER},
       </if>
       <if test="exprieTime != null" >
         exprie_time = #{exprieTime,jdbcType=TIMESTAMP},
@@ -136,7 +136,7 @@
       average_price = #{averagePrice,jdbcType=INTEGER},
       type = #{type,jdbcType=BIT},
       receive_red_seq = #{receiveRedSeq,jdbcType=INTEGER},
-      cost = #{cost,jdbcType=VARCHAR},
+      cost = #{cost,jdbcType=INTEGER},
       exprie_time = #{exprieTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -146,6 +146,12 @@
     select
     <include refid="Base_Column_List" />
     from org_rule
-    where exprie_time>now() and status=1
+    where exprie_time  &lt; now() and status=1
   </select>
+
+  <update id="updateStatusHasScan" parameterType="java.lang.Integer" >
+    update org_rule
+    set status=2
+    where id = #{orgRuleId,jdbcType=INTEGER}
+  </update>
 </mapper>
