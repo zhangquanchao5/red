@@ -1,4 +1,4 @@
-package com.red.code;
+package com.red.common.code;
 
 /**
  * Created by huichao on 2015/7/14.
