@@ -10,13 +10,21 @@ public class ErrorCode {
      */
     public static final int SUCCESS = 200;
     /**
-     * 处理成功
+     * 处理失败
      */
     public static final int ERROR = 0;
     /**
      * 参数不完整
      */
-    public static final int PARAMETER_NOT_ENOUGH=4000;
+    public static final int PARAMETER_NOT_ENOUGH = 4000;
+    /**
+     * 无效红包
+     */
+    public static final int RED_INVALIDE = 4001;
+    /**
+     * 无效红包详情
+     */
+    public static final int RED_DETAIL_INVALIDE = 4002;
 
     /**
      * 存在此账号

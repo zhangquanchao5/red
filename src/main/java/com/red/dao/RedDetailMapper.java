@@ -60,7 +60,7 @@ public interface RedDetailMapper {
      *
      * @param redId the red id
      * @param index the index
-     * @return the by red id and index
+     * @return the red detail
      */
-    int getByRedIdAndIndex(@Param("redId") Integer redId, @Param("index") Integer index);
+    RedDetail getByRedIdAndIndex(@Param("redId") Integer redId, @Param("index") Integer index);
 }

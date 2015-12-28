@@ -4,6 +4,7 @@ import com.red.common.bean.ResponseMessage;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
 import com.red.domain.OrgRule;
+import com.red.domain.RedDetail;
 import com.red.service.OrgRuleService;
 import com.red.service.RedDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,26 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)
-    public void getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone) {
-        redDetailService.
+    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, Integer type) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            RedDetail redDetail = redDetailService.getRedMoney(id);
+            redDetailService.saveHistory(redDetail, phone, type);
+            message.setData(redDetail.getMoney());
+            message.setSuccess(true);
+            message.setCode(ErrorCode.SUCCESS);
+            message.setMsg(messageUtil.getMessage("msg.process.succ"));
+        } catch (CustomException e) {
+            message.setSuccess(false);
+            message.setCode(e.getErrorCode());
+            message.setMsg(e.getMessage());
+            logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setCode(ErrorCode.ERROR);
+            message.setMsg(messageUtil.getMessage("msg.process.fail"));
+            logger.error(e.getMessage(), e);
+        }
+        return message;
     }
 }
