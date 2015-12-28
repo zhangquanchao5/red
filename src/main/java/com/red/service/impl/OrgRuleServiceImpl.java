@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Star on 2015/12/24.
@@ -50,6 +51,24 @@ public class OrgRuleServiceImpl implements OrgRuleService {
             redDetailMapper.insertSelective(redDetail);
         }
         return orgRule.getId();
+    }
+
+    @Override
+    public List<OrgRule> getOrgRules(Integer orgId) throws Exception {
+        if (null == orgId) {
+            throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "orgId"), ErrorCode.PARAMETER_NOT_ENOUGH);
+        }
+
+        return orgRuleMapper.findByOrg(orgId);
+    }
+
+    @Override
+    public OrgRule getOrgRule(Integer id) throws Exception {
+        if (null == id) {
+            throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "id"), ErrorCode.PARAMETER_NOT_ENOUGH);
+        }
+
+        return orgRuleMapper.selectByPrimaryKey(id);
     }
 
     private void checkOrgRuleFields(OrgRule orgRule) throws Exception {

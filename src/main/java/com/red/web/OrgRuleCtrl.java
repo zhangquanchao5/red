@@ -60,13 +60,47 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}", method = RequestMethod.GET)
-    public void get(@PathVariable Integer id) {
-
+    public @ResponseBody ResponseMessage get(@PathVariable Integer id) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            message.setData(orgRuleService.getOrgRule(id));
+            message.setSuccess(true);
+            message.setCode(ErrorCode.SUCCESS);
+            message.setMsg(messageUtil.getMessage("msg.process.succ"));
+        } catch (CustomException e) {
+            message.setSuccess(false);
+            message.setCode(e.getErrorCode());
+            message.setMsg(e.getMessage());
+            logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setCode(ErrorCode.ERROR);
+            message.setMsg(messageUtil.getMessage("msg.process.fail"));
+            logger.error(e.getMessage(), e);
+        }
+        return message;
     }
 
     @RequestMapping(value = "/api/reds", method = RequestMethod.GET)
-    public void list() {
-
+    public @ResponseBody ResponseMessage list(Integer orgId) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            message.setDatas(orgRuleService.getOrgRules(orgId));
+            message.setSuccess(true);
+            message.setCode(ErrorCode.SUCCESS);
+            message.setMsg(messageUtil.getMessage("msg.process.succ"));
+        } catch (CustomException e) {
+            message.setSuccess(false);
+            message.setCode(e.getErrorCode());
+            message.setMsg(e.getMessage());
+            logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setCode(ErrorCode.ERROR);
+            message.setMsg(messageUtil.getMessage("msg.process.fail"));
+            logger.error(e.getMessage(), e);
+        }
+        return message;
     }
 
     @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)

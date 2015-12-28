@@ -67,4 +67,10 @@ public interface OrgRuleMapper {
      *
      */
     void updateStatusHasScan(Integer orgRuleId);
+
+    /**
+     * 获取机构下的红包规则
+     * @return
+     */
+    List<OrgRule> findByOrg(Integer orgId);
 }
