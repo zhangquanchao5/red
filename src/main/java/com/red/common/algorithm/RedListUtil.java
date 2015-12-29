@@ -29,6 +29,7 @@ public class RedListUtil {
 
             return resultReturn(scale, orgRule.getAveragePrice(), moneySum, orgRule.getRedCount());
         }else{
+            logger.info("Scale ---> "+scale);
             int[] result = new int[orgRule.getRedCount().intValue()];
             for(int i=0;i<orgRule.getRedCount().intValue();i++){
                 result[i]=orgRule.getAveragePrice().intValue();
