@@ -1,5 +1,6 @@
 package com.red.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.red.common.algorithm.RedListUtil;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
@@ -48,6 +49,7 @@ public class OrgRuleServiceImpl implements OrgRuleService {
             redDetail.setRedId(orgRule.getId());
             redDetail.setMoney(moneyList[i]);
             redDetail.setIndex(i+1);
+            System.out.println(JSON.toJSONString(redDetail));
             redDetailMapper.insertSelective(redDetail);
         }
         return orgRule.getId();

@@ -1,5 +1,6 @@
 package com.red.web;
 
+import com.alibaba.fastjson.JSON;
 import com.red.common.bean.ResponseMessage;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
@@ -10,10 +11,7 @@ import com.red.service.OrgRuleService;
 import com.red.service.RedDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Star on 2015/12/24.
@@ -28,7 +26,8 @@ public class OrgRuleCtrl extends BasicCtrl {
     private RedDetailService redDetailService;
 
     @RequestMapping(value = "/api/reds", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage create(OrgRule orgRule) {
+    public @ResponseBody ResponseMessage create(@RequestBody OrgRule orgRule) {
+        logger.info("request body ---> " + JSON.toJSONString(orgRule));
         ResponseMessage message = new ResponseMessage();
         try {
             Integer redId = orgRuleService.createOrgRule(orgRule);
@@ -83,7 +82,8 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage list(Integer orgId) {
+    public @ResponseBody ResponseMessage list(@RequestBody Integer orgId) {
+        logger.info("request body ---> " + orgId);
         ResponseMessage message = new ResponseMessage();
         try {
             message.setDatas(orgRuleService.getOrgRules(orgId));
@@ -105,7 +105,8 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, Integer type) {
+    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, @RequestBody Integer type) {
+        logger.info("request body ---> " + type);
         ResponseMessage message = new ResponseMessage();
         try {
             RedDetail redDetail = redDetailService.getRedMoney(id);

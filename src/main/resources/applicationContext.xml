@@ -70,6 +70,7 @@
     <!-- 设置与事务有关的各种属性  -->
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
+            <tx:method name="create*" propagation="REQUIRED" />
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
