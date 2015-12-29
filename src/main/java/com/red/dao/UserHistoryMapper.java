@@ -4,6 +4,7 @@ import com.red.common.apibean.UserHistoryPageReq;
 import com.red.domain.UserHistory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The interface User history mapper.
@@ -64,6 +65,10 @@ public interface UserHistoryMapper {
      * @return the int
      */
     int findRedIdCount(Integer redId);
+    /**
+     * 查询获取某一个红包规则下总得分享的红包数
+     */
+    int findPhoneRedIdCount(Map map);
 
     /**
      * 获取查询总数

@@ -143,4 +143,10 @@
   </select>
 
 
+  <select id="findPhoneRedIdCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(1)
+    from user_history
+    where red_id = #{redId,jdbcType=INTEGER} and mobile=#{mobile} and type=2
+  </select>
+
 </mapper>

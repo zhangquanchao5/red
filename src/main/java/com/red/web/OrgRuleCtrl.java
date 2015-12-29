@@ -1,6 +1,7 @@
 package com.red.web;
 
 import com.red.common.bean.ResponseMessage;
+import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
 import com.red.domain.OrgRule;
@@ -109,6 +110,10 @@ public class OrgRuleCtrl extends BasicCtrl {
         try {
             RedDetail redDetail = redDetailService.getRedMoney(id);
             redDetailService.saveHistory(redDetail, phone, type);
+            //判断是否第一次获取这个红包规则的分享者，是的话发送短信
+            if(type.intValue()== EntityCode.USER_HISTORY_FAIR.intValue()){
+                redDetailService.sendSms(redDetail,phone);
+            }
             message.setData(redDetail.getMoney());
             message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);

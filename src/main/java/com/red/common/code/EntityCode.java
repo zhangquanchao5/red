@@ -31,4 +31,7 @@ public class EntityCode {
 
     public static final String BILLTYPE_CODE_CASH="cash";
     public static final String BILLTYPE_CODE_GIFT="gift";
+
+    public static final Integer USER_HISTORY_MY=1;
+    public static final Integer USER_HISTORY_FAIR=2;
 }
