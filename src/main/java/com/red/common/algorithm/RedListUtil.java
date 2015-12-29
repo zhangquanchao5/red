@@ -1,13 +1,35 @@
 package com.red.common.algorithm;
 
+import com.red.domain.OrgRule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.math.BigDecimal;
-import java.util.Random;
 
 /**
  * Created by huichao on 2015/12/24.
  */
 public class RedListUtil {
 
+    private static float[] RED_SCALE = {0.3f, 0.4f};
+    private static Logger logger = LogManager.getLogger(RedListUtil.class);
+
+
+    public static int[] generate(OrgRule orgRule) {
+        float scale = 1;
+
+        int moneySum = orgRule.getAveragePrice()*orgRule.getRedCount();
+        if (null != orgRule.getCost() && orgRule.getCost() > 0) {
+            moneySum += orgRule.getCost();
+        }
+
+        if (orgRule.getType()) {
+            scale = RED_SCALE[orgRule.getRedCount()%2];
+        }
+        logger.info("Scale ---> "+scale);
+
+        return resultReturn(scale, orgRule.getAveragePrice(), moneySum, orgRule.getRedCount());
+    }
 
     /**
      * Generate reds int [ ].
@@ -17,7 +39,9 @@ public class RedListUtil {
      * @return the int [ ]
      */
     public static int[] generate(int price, int amount) {
-        float scale = (new Random().nextInt(9)+1) / 10f;
+        //float scale = (new Random().nextInt(9)+1) / 10f;
+        float scale = RED_SCALE[amount%2];
+        logger.info("Scale ---> "+scale);
         return resultReturn(scale, price, price*amount, amount);
     }
 
@@ -47,7 +71,7 @@ public class RedListUtil {
         if(scale*price>1){
             minMoney=(int)(scale*price);
         }
-        System.out.println("--------------------"+minMoney+"-------");
+        logger.info("min money ---> "+minMoney);
 
         //剩余的钱保证每个人大于-分，否则，按minMoney=1分按保底值
         int tmpMoney=total-minMoney*numberOfPeople;

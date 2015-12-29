@@ -42,14 +42,13 @@ public class OrgRuleServiceImpl implements OrgRuleService {
 
         //save RedDetail
         RedDetail redDetail;
-        int[] moneyList = RedListUtil.generate(orgRule.getAveragePrice(), orgRule.getRedCount());
+        int[] moneyList = RedListUtil.generate(orgRule);
         for (int i = 0;i < moneyList.length;i++) {
             redDetail = new RedDetail();
             redDetail.setCreateTime(new Date());
             redDetail.setRedId(orgRule.getId());
             redDetail.setMoney(moneyList[i]);
             redDetail.setIndex(i+1);
-            System.out.println(JSON.toJSONString(redDetail));
             redDetailMapper.insertSelective(redDetail);
         }
         return orgRule.getId();
