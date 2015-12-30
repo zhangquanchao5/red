@@ -41,7 +41,6 @@ public class RedRuleScanTask {
     @Autowired
     private RefundHistoryMapper refundHistoryMapper;
 
-
     /**
      * Do scan.
      */

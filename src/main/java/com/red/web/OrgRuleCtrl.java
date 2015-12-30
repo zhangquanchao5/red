@@ -38,16 +38,13 @@ public class OrgRuleCtrl extends BasicCtrl {
         try {
             Integer redId = orgRuleService.createOrgRule(orgRule);
             message.setData(redId);
-            message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {
-            message.setSuccess(false);
             message.setCode(e.getErrorCode());
             message.setMsg(e.getMessage());
             logger.error(e.getMessage(), e);
         } catch (Exception e) {
-            message.setSuccess(false);
             message.setCode(ErrorCode.ERROR);
             message.setMsg(messageUtil.getMessage("msg.process.fail"));
             logger.error(e.getMessage(), e);
@@ -70,16 +67,13 @@ public class OrgRuleCtrl extends BasicCtrl {
         ResponseMessage message = new ResponseMessage();
         try {
             message.setData(orgRuleService.getOrgRule(id));
-            message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {
-            message.setSuccess(false);
             message.setCode(e.getErrorCode());
             message.setMsg(e.getMessage());
             logger.error(e.getMessage(), e);
         } catch (Exception e) {
-            message.setSuccess(false);
             message.setCode(ErrorCode.ERROR);
             message.setMsg(messageUtil.getMessage("msg.process.fail"));
             logger.error(e.getMessage(), e);
@@ -93,16 +87,13 @@ public class OrgRuleCtrl extends BasicCtrl {
         ResponseMessage message = new ResponseMessage();
         try {
             message.setDatas(orgRuleService.getOrgRules(orgId));
-            message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {
-            message.setSuccess(false);
             message.setCode(e.getErrorCode());
             message.setMsg(e.getMessage());
             logger.error(e.getMessage(), e);
         } catch (Exception e) {
-            message.setSuccess(false);
             message.setCode(ErrorCode.ERROR);
             message.setMsg(messageUtil.getMessage("msg.process.fail"));
             logger.error(e.getMessage(), e);
@@ -122,16 +113,13 @@ public class OrgRuleCtrl extends BasicCtrl {
                 redDetailService.sendSms(redDetail,phone);
             }
             message.setData(redDetail.getMoney());
-            message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {
-            message.setSuccess(false);
             message.setCode(e.getErrorCode());
             message.setMsg(e.getMessage());
             logger.error(e.getMessage(), e);
         } catch (Exception e) {
-            message.setSuccess(false);
             message.setCode(ErrorCode.ERROR);
             message.setMsg(messageUtil.getMessage("msg.process.fail"));
             logger.error(e.getMessage(), e);
@@ -154,11 +142,9 @@ public class OrgRuleCtrl extends BasicCtrl {
 
             PageResponse pageResponse = userHistoryService.findUserHistorys(req);
             message.setData(pageResponse);
-            message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (Exception e) {
-            message.setSuccess(false);
             message.setCode(ErrorCode.ERROR);
             message.setMsg(messageUtil.getMessage("msg.process.fail"));
             logger.error(e.getMessage(), e);

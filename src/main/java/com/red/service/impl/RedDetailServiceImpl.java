@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
 
 /**
  * Created by Star on 2015/12/24.
@@ -121,5 +121,29 @@ public class RedDetailServiceImpl implements RedDetailService {
             System.out.println(smsResponse.getCode() + ":" + smsResponse.getMsg() + ":" + smsResponse.getSmsid());
             RedLogger.recBusinessLog("send mobile:"+phone +" [" +JSON.toJSONString(smsResponse)+"]");
         }
+    }
+
+
+    public void saveTest() throws Exception{
+        UserHistory userHistory = new UserHistory();
+        userHistory.setRedId(2);
+        userHistory.setMobile(2 + "");
+        userHistory.setMoney(2);
+        userHistory.setCreateTime(new Date());
+        userHistory.setType((byte) 1);
+        userHistoryMapper.insert(userHistory);
+
+       if(1>0){
+           throw new Exception();
+       }
+        userHistory = new UserHistory();
+        userHistory.setRedId(3);
+        userHistory.setMobile(3 + "");
+        userHistory.setMoney(3);
+        userHistory.setCreateTime(new Date());
+        userHistory.setType((byte)1);
+        userHistoryMapper.insert(userHistory);
+
+
     }
 }

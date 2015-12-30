@@ -14,7 +14,7 @@
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <context:annotation-config/>
+
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -84,7 +84,7 @@
     <!-- 声明切入点 -->
     <aop:config>
         <aop:pointcut id="interceptorPointCuts"
-                      expression="execution(* com.red.service..*.*(..))" />
+                      expression="execution(* com.red.service.impl.*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
     </aop:config>
 
