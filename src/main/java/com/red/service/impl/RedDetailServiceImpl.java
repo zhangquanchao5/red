@@ -85,7 +85,7 @@ public class RedDetailServiceImpl implements RedDetailService {
         orgRule.setReceiveRedSeq(receiveRedSeq);
         orgRuleMapper.updateByPrimaryKeySelective(orgRule);
 
-        redDetailMapper.deleteByPrimaryKey(orgRule.getId());
+        redDetailMapper.deleteByPrimaryKey(redDetail.getId());
 
         RechargeReq rechargeReq=new RechargeReq();
         rechargeReq.setAccountBIllType(PrefixCode.API_ACCOUNT_RED_CODE);
