@@ -84,7 +84,7 @@
     <!-- 声明切入点 -->
     <aop:config>
         <aop:pointcut id="interceptorPointCuts"
-                      expression="execution(* com.red.service.impl.*.*(..))" />
+                      expression="execution(* com.red.service..*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
     </aop:config>
 
