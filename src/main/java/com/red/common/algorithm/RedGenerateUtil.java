@@ -9,19 +9,19 @@ import java.math.BigDecimal;
 /**
  * Created by huichao on 2015/12/24.
  */
-public class RedListUtil {
+public class RedGenerateUtil {
 
     private static float[] RED_SCALE = {0.3f, 0.4f};
-    private static Logger logger = LogManager.getLogger(RedListUtil.class);
+    private static Logger logger = LogManager.getLogger(RedGenerateUtil.class);
 
 
     public static int[] generate(OrgRule orgRule) {
         float scale = 1;
 
         int moneySum = orgRule.getAveragePrice()*orgRule.getRedCount();
-        if (null != orgRule.getCost() && orgRule.getCost() > 0) {
-            moneySum += orgRule.getCost();
-        }
+//        if (null != orgRule.getCost() && orgRule.getCost() > 0) {
+//            moneySum += orgRule.getCost();
+//        }
 
         if (orgRule.getType()) {
             scale = RED_SCALE[orgRule.getRedCount()%2];
@@ -48,23 +48,12 @@ public class RedListUtil {
      * @return the int [ ]
      */
     public static int[] generate(int price, int amount) {
-        //float scale = (new Random().nextInt(9)+1) / 10f;
         float scale = RED_SCALE[amount%2];
         logger.info("Scale ---> "+scale);
         return resultReturn(scale, price, price*amount, amount);
     }
 
-    public static void main(String []args){
-        //int [] result=resultReturn(0.1,2,100,92);
-        int [] result=generate(10, 5);
-        int total=0;
-        for(int rs:result){
-            total=total+rs;
-            System.out.println(rs);
-        }
 
-        System.out.println("---"+total);
-    }
     /**
      * 金额的精度：保留两位小数
      */
@@ -124,8 +113,6 @@ public class RedListUtil {
      * @return
      */
     public static BigDecimal[] generalPlay(final BigDecimal money, int numberOfPeople) {
-//        // 检验参数的合法性
-//        checkGeneralPlayValidParam(money, numberOfPeople);
 
         // 将金额转化为分，就能转化为整数
         BigDecimal divisor = new BigDecimal(100);
@@ -165,21 +152,16 @@ public class RedListUtil {
         return bigrand;
     }
 
-    /**
-     * 检查方法{@link #generalPlay(BigDecimal, int)}参数的有效性
-     */
-    private static void checkGeneralPlayValidParam(final BigDecimal money, int numberOfPeople) {
-        // 确保人数大于等于1
-        if (numberOfPeople < 1) {throw new RuntimeException("人数 " + numberOfPeople + " 应该大于0！");
+
+    public static void main(String []args){
+        //int [] result=resultReturn(0.1,2,100,92);
+        int [] result=generate(10, 5);
+        int total=0;
+        for(int rs:result){
+            total=total+rs;
+            System.out.println(rs);
         }
-        // 确保每个人至少能分到0.01元
-        if (money.compareTo(new BigDecimal("0.01").multiply(new BigDecimal(
-                numberOfPeople))) < 0) {
-            throw new RuntimeException("人数太多，钱不够分！");
-        }
-        // 确保money只有两位小数
-        if (money.scale() > scale) {
-            throw new RuntimeException("金额数据不对，最多保留两位小数！");
-        }
+
+        System.out.println("---"+total);
     }
 }
