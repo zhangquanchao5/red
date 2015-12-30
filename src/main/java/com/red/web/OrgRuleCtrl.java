@@ -82,7 +82,7 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage list(@RequestBody Integer orgId) {
+    public @ResponseBody ResponseMessage list(Integer orgId) {
         logger.info("request body ---> " + orgId);
         ResponseMessage message = new ResponseMessage();
         try {
@@ -105,7 +105,7 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, @RequestBody Integer type) {
+    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, Integer type) {
         logger.info("request body ---> " + type);
         ResponseMessage message = new ResponseMessage();
         try {
