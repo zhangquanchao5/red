@@ -1,7 +1,6 @@
 package com.red.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.red.common.algorithm.RedListUtil;
+import com.red.common.algorithm.RedGenerateUtil;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
@@ -42,7 +41,7 @@ public class OrgRuleServiceImpl implements OrgRuleService {
 
         //save RedDetail
         RedDetail redDetail;
-        int[] moneyList = RedListUtil.generate(orgRule);
+        int[] moneyList = RedGenerateUtil.generate(orgRule);
         for (int i = 0;i < moneyList.length;i++) {
             redDetail = new RedDetail();
             redDetail.setCreateTime(new Date());
