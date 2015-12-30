@@ -32,4 +32,6 @@ public interface RedDetailService {
      * @throws Exception
      */
     void sendSms(RedDetail redDetail, String phone) throws Exception;
+
+    void saveTest() throws Exception;
 }
