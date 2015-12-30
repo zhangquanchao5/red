@@ -1,14 +1,17 @@
 package com.red.web;
 
 import com.alibaba.fastjson.JSON;
+import com.red.common.apibean.UserHistoryPageReq;
 import com.red.common.bean.ResponseMessage;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
+import com.red.common.page.PageResponse;
 import com.red.domain.OrgRule;
 import com.red.domain.RedDetail;
 import com.red.service.OrgRuleService;
 import com.red.service.RedDetailService;
+import com.red.service.UserHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class OrgRuleCtrl extends BasicCtrl {
 
     @Autowired
     private RedDetailService redDetailService;
+
+    @Autowired
+    private UserHistoryService userHistoryService;
 
     @RequestMapping(value = "/api/reds", method = RequestMethod.POST)
     public @ResponseBody ResponseMessage create(@RequestBody OrgRule orgRule) {
@@ -82,7 +88,7 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage list(@RequestBody Integer orgId) {
+    public @ResponseBody ResponseMessage list(Integer orgId) {
         logger.info("request body ---> " + orgId);
         ResponseMessage message = new ResponseMessage();
         try {
@@ -105,7 +111,7 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, @RequestBody Integer type) {
+    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, Integer type) {
         logger.info("request body ---> " + type);
         ResponseMessage message = new ResponseMessage();
         try {
@@ -124,6 +130,24 @@ public class OrgRuleCtrl extends BasicCtrl {
             message.setCode(e.getErrorCode());
             message.setMsg(e.getMessage());
             logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            message.setSuccess(false);
+            message.setCode(ErrorCode.ERROR);
+            message.setMsg(messageUtil.getMessage("msg.process.fail"));
+            logger.error(e.getMessage(), e);
+        }
+        return message;
+    }
+
+    @RequestMapping(value = "/api/reds/{id}/history", method = RequestMethod.GET)
+    public @ResponseBody ResponseMessage getRedHistory(@PathVariable Integer id) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            PageResponse pageResponse = userHistoryService.findUserHistorys(new UserHistoryPageReq(id));
+            message.setData(pageResponse);
+            message.setSuccess(true);
+            message.setCode(ErrorCode.SUCCESS);
+            message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (Exception e) {
             message.setSuccess(false);
             message.setCode(ErrorCode.ERROR);

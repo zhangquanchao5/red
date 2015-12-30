@@ -13,8 +13,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserHistoryServiceImpl implements UserHistoryService {
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private UserHistoryMapper userHistoryMapper;
+
+    public  PageResponse findUserHistorys(UserHistoryPageReq userHistoryPageReq){
+        userHistoryPageReq.setPageStart((userHistoryPageReq.getCurrentPage()-1)*userHistoryPageReq.getCurrentSize());
+
+        PageResponse pageResponse = new PageResponse();
+        pageResponse.setTotal(userHistoryMapper.findPageCount(userHistoryPageReq));
+        pageResponse.setList(userHistoryMapper.findPageResponse(userHistoryPageReq));
+
+        return pageResponse;
+    }
 
     public  PageResponse findUserHistorys(UserHistoryPageReq userHistoryPageReq,String mobile){
         userHistoryPageReq.setPageStart((userHistoryPageReq.getCurrentPage()-1)*userHistoryPageReq.getCurrentSize());

@@ -22,7 +22,7 @@
     from org_rule
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="findByOrg" resultType="RedRule" parameterType="java.lang.Integer" >
+  <select id="findByOrg" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from org_rule
