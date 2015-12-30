@@ -140,10 +140,19 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}/history", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage getRedHistory(@PathVariable Integer id) {
+    public @ResponseBody ResponseMessage getRedHistory(@PathVariable Integer id, Integer currentPage, Integer currentSize) {
         ResponseMessage message = new ResponseMessage();
         try {
-            PageResponse pageResponse = userHistoryService.findUserHistorys(new UserHistoryPageReq(id));
+            UserHistoryPageReq req = new UserHistoryPageReq(id);
+            if (null != currentPage && currentPage > 0) {
+                req.setCurrentPage(currentPage);
+            }
+
+            if (null != currentSize && currentSize > 0) {
+                req.setCurrentSize(currentSize);
+            }
+
+            PageResponse pageResponse = userHistoryService.findUserHistorys(req);
             message.setData(pageResponse);
             message.setSuccess(true);
             message.setCode(ErrorCode.SUCCESS);
