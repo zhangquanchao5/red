@@ -25,10 +25,19 @@ public class RedListUtil {
 
         if (orgRule.getType()) {
             scale = RED_SCALE[orgRule.getRedCount()%2];
-        }
-        logger.info("Scale ---> "+scale);
+            logger.info("Scale ---> "+scale);
 
-        return resultReturn(scale, orgRule.getAveragePrice(), moneySum, orgRule.getRedCount());
+            return resultReturn(scale, orgRule.getAveragePrice(), moneySum, orgRule.getRedCount());
+        }else{
+            logger.info("Scale ---> "+scale);
+            int[] result = new int[orgRule.getRedCount().intValue()];
+            for(int i=0;i<orgRule.getRedCount().intValue();i++){
+                result[i]=orgRule.getAveragePrice().intValue();
+            }
+
+            return  result;
+        }
+
     }
 
     /**
@@ -66,8 +75,8 @@ public class RedListUtil {
      */
     public static int[] resultReturn(double scale,int price,int total,int numberOfPeople){
         int[] result = new int[numberOfPeople];
-        BigDecimal[] mid=null;
-        int minMoney=1;//1分
+        BigDecimal[] mid= null;
+        int minMoney = 1;//1分
         if(scale*price>1){
             minMoney=(int)(scale*price);
         }
