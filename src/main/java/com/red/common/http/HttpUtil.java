@@ -1,5 +1,6 @@
 package com.red.common.http;
 
+import com.red.common.code.PrefixCode;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
@@ -49,6 +50,37 @@ public final class HttpUtil {
     private HttpUtil() {
     }
 
+    public static HttpSendResult executePostAuth(String url, String str,String platform,String authToken) {
+        HttpSendResult sendResult = new HttpSendResult();
+        HttpClient hc = new HttpClient(clientParams);
+        hc.setConnectionTimeout(connectiontimeout);
+        PostMethod postMethod = new PostMethod(url);
+        postMethod.setRequestHeader("platform",platform);
+        postMethod.setRequestHeader("Authorization",authToken);
+        try {
+            postMethod.setRequestEntity(new ByteArrayRequestEntity(str.getBytes(default_string)));
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        postMethod.setRequestHeader(REQUEST_HEADER_CONTENTTYPE, PrefixCode.API_CONTENT_TYPE + "; charset=" + default_string);
+        try {
+            int responseCode = hc.executeMethod(postMethod);
+            InputStream inputStream = postMethod.getResponseBodyAsStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            int read = -1;
+            while ((read = inputStream.read()) != -1) {
+                out.write(read);
+            }
+            String response = new String(out.toByteArray(), default_string);
+            sendResult.setStatusCode(responseCode);
+            sendResult.setResponse(response);
+        } catch (Exception e) {
+            sendResult.setException(e);
+        }
+        postMethod.releaseConnection();
+        return sendResult;
+    }
+
     /**
      * 使用GetMethod方式读取URL数据，读完后自动断开请求
      *
@@ -64,8 +96,6 @@ public final class HttpUtil {
         GetMethod getMethod = new GetMethod(url);
         getMethod.setRequestHeader("platform",platform);
         getMethod.setRequestHeader("Authorization",authToken);
-        getMethod.setRequestHeader(REQUEST_HEADER_CONNECTION, REQUEST_HEADER_VALUE_CLOSE);
-        getMethod.setRequestHeader(REQUEST_HEADER_PROXYCONNECTION, REQUEST_HEADER_VALUE_CLOSE);
         HttpMethodParams httpMethodParams = getMethod.getParams();
         httpMethodParams.setParameter(HttpMethodParams.SO_TIMEOUT, readtimeout);
         try {

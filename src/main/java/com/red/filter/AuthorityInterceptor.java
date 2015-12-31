@@ -15,6 +15,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,7 +49,9 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter {
             response.getWriter().write(JSON.toJSONString(responseMessage));
             return false;
         }
-        HttpSendResult httpSendResult= HttpUtil.executeGet(PropertiesUtil.getString("USER.HEADER.VALIDATE"), platform, authorization);
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("auth_token",authorization);
+        HttpSendResult httpSendResult= HttpUtil.executePostAuth(PropertiesUtil.getString("USER.HEADER.VALIDATE"),JSON.toJSONString(map),platform, authorization);
         if(httpSendResult.getStatusCode()==200){
             CommonResponse commonResponse=JSON.parseObject(httpSendResult.getResponse(), CommonResponse.class);
             if(!commonResponse.getCode().equals(ErrorCode.SUCCESS+"")){
