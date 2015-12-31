@@ -10,6 +10,8 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
+
+
     <context:component-scan base-package="com.red">
     <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -70,13 +72,13 @@
     <!-- 设置与事务有关的各种属性  -->
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
-            <tx:method name="create*" propagation="REQUIRED" rollback-for="com.red.common.exception.CustomException"/>
-            <tx:method name="add*" propagation="REQUIRED"  rollback-for="com.red.common.exception.CustomException"/>
-            <tx:method name="insert*" propagation="REQUIRED"  rollback-for="com.red.common.exception.CustomException"/>
-            <tx:method name="update*" propagation="REQUIRED"  rollback-for="com.red.common.exception.CustomException"/>
-            <tx:method name="del*" propagation="REQUIRED"  rollback-for="com.red.common.exception.CustomException"/>
-            <tx:method name="remove*" propagation="REQUIRED"  rollback-for="com.red.common.exception.CustomException"/>
-            <tx:method name="save*" propagation="REQUIRED"  rollback-for="com.red.common.exception.CustomException"/>
+            <tx:method name="create*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
+            <tx:method name="insert*" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
+            <tx:method name="del*" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" propagation="REQUIRED"  rollback-for="java.lang.Exception"/>
             <tx:method name="*" read-only="true" />
 
         </tx:attributes>

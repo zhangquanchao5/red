@@ -54,6 +54,13 @@
     </mvc:annotation-driven>
 
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 需拦截的地址 -->
+            <mvc:mapping path="/**" />
+            <bean class="com.red.filter.AuthorityInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

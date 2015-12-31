@@ -133,9 +133,9 @@ public class RedDetailServiceImpl implements RedDetailService {
         userHistory.setType((byte) 1);
         userHistoryMapper.insert(userHistory);
 
-       if(1>0){
-           throw new Exception();
-       }
+//       if(1>0){
+//           throw new Exception();
+//       }
         userHistory = new UserHistory();
         userHistory.setRedId(3);
         userHistory.setMobile(3 + "");

@@ -62,6 +62,8 @@ public final class HttpUtil {
         HttpClient hc = new HttpClient();
         hc.setHttpConnectionManager(connectionManager);
         GetMethod getMethod = new GetMethod(url);
+        getMethod.setRequestHeader("platform",platform);
+        getMethod.setRequestHeader("Authorization",authToken);
         getMethod.setRequestHeader(REQUEST_HEADER_CONNECTION, REQUEST_HEADER_VALUE_CLOSE);
         getMethod.setRequestHeader(REQUEST_HEADER_PROXYCONNECTION, REQUEST_HEADER_VALUE_CLOSE);
         HttpMethodParams httpMethodParams = getMethod.getParams();

@@ -73,4 +73,9 @@ public class ErrorCode {
      * token no validate
      */
     public static final int USER_TOKEN_NO_VAL=9999;
+
+    /**
+     * 缺少请求头
+     */
+    public static final int USER_NO_HEADER=9990;
 }
