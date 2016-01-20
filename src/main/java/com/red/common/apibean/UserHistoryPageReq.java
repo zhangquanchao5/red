@@ -13,6 +13,36 @@ public class UserHistoryPageReq extends PageRequest {
 
     private Integer redId;
 
+    private Integer type;
+
+    private String timeBegin;
+
+    private String timeEnd;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getTimeBegin() {
+        return timeBegin;
+    }
+
+    public void setTimeBegin(String timeBegin) {
+        this.timeBegin = timeBegin;
+    }
+
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
     public UserHistoryPageReq() {
     }
 

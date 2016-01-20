@@ -23,7 +23,7 @@ public interface RedDetailService {
      * @param type      the type
      * @throws Exception the exception
      */
-    void saveHistory(RedDetail redDetail, String phone, Integer type) throws Exception;
+    Integer saveHistory(RedDetail redDetail, String phone, Integer type) throws Exception;
 
     /**
      * 判断是否第一次分享后需要发送短信，恭喜分享获取红包

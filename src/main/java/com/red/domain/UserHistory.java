@@ -18,6 +18,16 @@ public class UserHistory {
 
     private Date createTime;
 
+    private Integer receive;
+
+    public Integer getReceive() {
+        return receive;
+    }
+
+    public void setReceive(Integer receive) {
+        this.receive = receive;
+    }
+
     /**
      * Gets id.
      *

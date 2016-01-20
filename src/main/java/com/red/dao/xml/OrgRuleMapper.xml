@@ -28,6 +28,36 @@
     from org_rule
     where org_id = #{_parameter,jdbcType=INTEGER} and status = 1
   </select>
+
+  <select id="findByQuery" resultMap="BaseResultMap" parameterType="com.red.common.apibean.OrgRuleReq" >
+    select
+    <include refid="Base_Column_List" />
+    from org_rule
+    where 1=1
+    <if test="id!=null and id!=''">
+      and id in
+      <foreach collection="id" item="item" index="index"
+               open="(" close=")" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="type!=null and type!=''">
+     and  type=#{type}
+    </if>
+    <if test="createTimeBegin!=null and createTimeBegin!='' and createTimeEnd!=null and createTimeEnd!='' ">
+      and create_time between str_to_date(#{createTimeBegin},'%Y-%m-%d %H:%i') and
+      str_to_date(#{createTimeEnd},'%Y-%m-%d %H:%i')
+    </if>
+    <choose>
+      <when test="status!=null and status==0">
+         and status=0
+      </when>
+      <when test="status!=null and status==1">
+        and status!=0
+      </when>
+    </choose>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from org_rule
     where id = #{id,jdbcType=INTEGER}

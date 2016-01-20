@@ -1,5 +1,6 @@
 package com.red.dao;
 
+import com.red.common.apibean.OrgRuleReq;
 import com.red.domain.OrgRule;
 
 import java.util.List;
@@ -59,18 +60,29 @@ public interface OrgRuleMapper {
     /**
      * 获取所有有效的并且过期的红包规则
      *
+     * @return the list
      */
     List<OrgRule> findExpireAndRunList();
 
     /**
      * 定时任务执行后，更改状态为已扫描
      *
+     * @param orgRuleId the org rule id
      */
     void updateStatusHasScan(Integer orgRuleId);
 
     /**
      * 获取机构下的红包规则
-     * @return
+     * @param orgId the org id
+     * @return list
      */
     List<OrgRule> findByOrg(Integer orgId);
+
+    /**
+     * 获取查询条件下的红包规则
+     *
+     * @param orgRuleReq the org rule req
+     * @return the list
+     */
+    List<OrgRule> findByQuery(OrgRuleReq orgRuleReq);
 }

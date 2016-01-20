@@ -34,4 +34,7 @@ public class EntityCode {
 
     public static final Integer USER_HISTORY_MY=1;
     public static final Integer USER_HISTORY_FAIR=2;
+
+    public static final Integer USER_RED_HAS_RECEIVE=1;
+    public static final Integer USER_RED_HASNO_RECEIVE=2;
 }

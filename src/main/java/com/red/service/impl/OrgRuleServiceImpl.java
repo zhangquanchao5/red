@@ -1,6 +1,7 @@
 package com.red.service.impl;
 
 import com.red.common.algorithm.RedGenerateUtil;
+import com.red.common.apibean.OrgRuleReq;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
@@ -69,6 +70,14 @@ public class OrgRuleServiceImpl implements OrgRuleService {
         }
 
         return orgRuleMapper.selectByPrimaryKey(id);
+    }
+
+   public List<OrgRule> findByQuery(OrgRuleReq orgRuleReq) throws Exception{
+        if (null == orgRuleReq.getId()) {
+            throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "id"), ErrorCode.PARAMETER_NOT_ENOUGH);
+        }
+
+       return orgRuleMapper.findByQuery(orgRuleReq);
     }
 
     private void checkOrgRuleFields(OrgRule orgRule) throws Exception {

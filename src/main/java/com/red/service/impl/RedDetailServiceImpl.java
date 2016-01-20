@@ -70,13 +70,14 @@ public class RedDetailServiceImpl implements RedDetailService {
     }
 
     @Override
-    public void saveHistory(RedDetail redDetail, String phone, Integer type) throws Exception {
+    public Integer saveHistory(RedDetail redDetail, String phone, Integer type) throws Exception {
         UserHistory userHistory = new UserHistory();
         userHistory.setRedId(redDetail.getRedId());
         userHistory.setMobile(phone);
         userHistory.setMoney(redDetail.getMoney());
         userHistory.setCreateTime(new Date());
         userHistory.setType(type.byteValue());
+        userHistory.setReceive(EntityCode.USER_RED_HASNO_RECEIVE);
         userHistoryMapper.insert(userHistory);
 
         OrgRule orgRule = orgRuleMapper.selectByPrimaryKey(redDetail.getRedId());
@@ -87,25 +88,7 @@ public class RedDetailServiceImpl implements RedDetailService {
 
         redDetailMapper.deleteByPrimaryKey(redDetail.getId());
 
-        RechargeReq rechargeReq=new RechargeReq();
-        rechargeReq.setAccountBIllType(PrefixCode.API_ACCOUNT_RED_CODE);
-        rechargeReq.setMobile(DESUtils.encrypt(phone.trim(), DESUtils.secretKey));
-        rechargeReq.setMoney(DESUtils.encrypt(redDetail.getMoney().toString() + SplitCode.SPLIT_BLANK,DESUtils.secretKey));
-        rechargeReq.setAuthKey(EncryptUtil.encrypt(phone.trim() + SplitCode.SPLIT_BLANK + redDetail.getMoney(), EncryptUtil.MD5));
-        //给用户充值
-        HttpSendResult httpSendResult= HttpUtil.executePost(PropertiesUtil.getString("USER.HEADER.RECHARGE"), JSON.toJSONString(rechargeReq), PrefixCode.API_CONTENT_TYPE);
-        if(httpSendResult.getStatusCode()==200){
-            ApiResponseMessage apiResponseMessage=JSON.parseObject(httpSendResult.getResponse(),ApiResponseMessage.class);
-            if(apiResponseMessage.getCode().equals(ErrorCode.SUCCESS+SplitCode.SPLIT_BLANK)){
-                RedLogger.recBusinessLog("RedDetailServiceImpl saveHistory success["+JSON.toJSONString(httpSendResult) +"] [REDFETAIL="+JSON.toJSONString(redDetail)+"] [phone="+phone+"] [type="+type+"]");
-            }else{
-                RedLogger.recBusinessLog("RedDetailServiceImpl saveHistory exception["+JSON.toJSONString(httpSendResult) +"] [REDFETAIL="+JSON.toJSONString(redDetail)+"] [phone="+phone+"] [type="+type+"]");
-                throw new CustomException(messageUtil.getMessage("msg.process.fail"), ErrorCode.ERROR);
-            }
-        }else{
-            RedLogger.recBusinessLog("RedDetailServiceImpl saveHistory exception["+JSON.toJSONString(httpSendResult) +"] [REDFETAIL="+JSON.toJSONString(redDetail)+"] [phone="+phone+"] [type="+type+"]");
-            throw new CustomException(messageUtil.getMessage("msg.process.fail"), ErrorCode.ERROR);
-        }
+        return  userHistory.getId();
     }
 
     @Override

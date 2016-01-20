@@ -7,10 +7,11 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="money" property="money" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="receive" property="receive" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, red_id, mobile, money, type, create_time
+    id, red_id, mobile, money, type, create_time,receive
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -18,6 +19,14 @@
     from user_history
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="findNoReceiveList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user_history
+    where mobile = #{mobile} and receive=2
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user_history
     where id = #{id,jdbcType=INTEGER}
@@ -27,10 +36,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user_history (id, red_id, mobile, 
-      money, type, create_time
+      money, type, create_time,receive
       )
     values (#{id,jdbcType=INTEGER}, #{redId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, 
-      #{money,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      #{money,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{receive,jdbcType=TINYINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.red.domain.UserHistory" useGeneratedKeys="true" keyProperty="id" >
@@ -52,6 +61,9 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="receive != null" >
+        receive,
+      </if>
       <if test="createTime != null" >
         create_time,
       </if>
@@ -69,6 +81,9 @@
       </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="receive != null" >
+        #{receive,jdbcType=TINYINT},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -90,6 +105,9 @@
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="receive != null" >
+        receive = #{receive,jdbcType=TINYINT},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -102,6 +120,7 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       money = #{money,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
+      receive = #{receive,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -121,6 +140,13 @@
     <if test="mobile != null">
       and uh.mobile=#{mobile}
     </if>
+    <if test="type != null">
+      and uh.type=#{type}
+    </if>
+    <if test="timeBegin != null and timeBegin!='' and timeEnd!=null and timeEnd!=''">
+      and uh.create_time between str_to_date(#{timeBegin},'%Y-%m-%d %H:%i') and
+      str_to_date(#{timeEnd},'%Y-%m-%d %H:%i')
+    </if>
     <if test="orgId != null">
       and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
     </if>
@@ -136,6 +162,13 @@
     count(1)
     from user_history uh
     where uh.mobile=#{mobile}
+    <if test="type != null">
+      and uh.type=#{type}
+    </if>
+    <if test="timeBegin != null and timeBegin!='' and timeEnd!=null and timeEnd!=''">
+      and uh.create_time between str_to_date(#{timeBegin},'%Y-%m-%d %H:%i') and
+      str_to_date(#{timeEnd},'%Y-%m-%d %H:%i')
+    </if>
     <if test="orgId != null">
       and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
     </if>

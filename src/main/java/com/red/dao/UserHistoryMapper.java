@@ -61,22 +61,37 @@ public interface UserHistoryMapper {
     /**
      * 获取一个红包规则领取的总红包钱数
      *
-     * @param redId
+     * @param redId the red id
      * @return the int
      */
     int findRedIdCount(Integer redId);
+
     /**
      * 查询获取某一个红包规则下总得分享的红包数
+     * @param map the map
+     * @return the int
      */
     int findPhoneRedIdCount(Map map);
 
     /**
      * 获取查询总数
+     * @param userHistoryPageReq the user history page req
+     * @return the int
      */
     int findPageCount(UserHistoryPageReq userHistoryPageReq);
 
     /**
      * 获取查询列表
+     * @param userHistoryPageReq the user history page req
+     * @return the list
      */
     List<UserHistory> findPageResponse(UserHistoryPageReq userHistoryPageReq);
+
+    /**
+     * Find no receive list.
+     *
+     * @param mobile the mobile
+     * @return the list
+     */
+    List<UserHistory> findNoReceiveList(String mobile);
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by Star on 2015/12/24.
@@ -60,6 +61,22 @@ public class UserHistoryCtrl {
             PageResponse pageResponse=userHistoryService.findUserHistorys(userHistoryPageReq,id);
             commonResponse.setCode(String.valueOf(ErrorCode.SUCCESS));
             commonResponse.setData(pageResponse);
+        }catch (Exception e){
+            e.printStackTrace();
+            commonResponse.setCode(String.valueOf(ErrorCode.ERROR));
+        }
+
+        ServletResponseHelper.outUTF8ToJson(response, JSON.toJSONString(commonResponse));
+    }
+
+    @RequestMapping(value = "/userHistory/user/{mobile}", method = RequestMethod.GET)
+    public void updaeHistoryReceive(@PathVariable("mobile") String mobile,Integer id,HttpServletResponse response) {
+        RedLogger.recBusinessLog("UserHistoryCtrl updaeHistoryReceive mobile="+mobile+"  id:"+id);
+        CommonResponse commonResponse=new CommonResponse();
+        try{
+            List<UserHistory> userHistories=userHistoryService.updateByMobile(mobile,id);
+            commonResponse.setCode(String.valueOf(ErrorCode.SUCCESS));
+            commonResponse.setData(userHistories);
         }catch (Exception e){
             e.printStackTrace();
             commonResponse.setCode(String.valueOf(ErrorCode.ERROR));

@@ -1,7 +1,9 @@
 package com.red.web;
 
 import com.alibaba.fastjson.JSON;
+import com.red.common.apibean.OrgRuleReq;
 import com.red.common.apibean.UserHistoryPageReq;
+import com.red.common.apibean.response.RedDetailResponse;
 import com.red.common.bean.ResponseMessage;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
@@ -81,6 +83,26 @@ public class OrgRuleCtrl extends BasicCtrl {
         return message;
     }
 
+
+    @RequestMapping(value = "/api/reds/batch", method = RequestMethod.GET)
+    public @ResponseBody ResponseMessage batch(OrgRuleReq orgRuleReq) {
+        ResponseMessage message = new ResponseMessage();
+        try {
+            message.setData(orgRuleService.findByQuery(orgRuleReq));
+            message.setCode(ErrorCode.SUCCESS);
+            message.setMsg(messageUtil.getMessage("msg.process.succ"));
+        } catch (CustomException e) {
+            message.setCode(e.getErrorCode());
+            message.setMsg(e.getMessage());
+            logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            message.setCode(ErrorCode.ERROR);
+            message.setMsg(messageUtil.getMessage("msg.process.fail"));
+            logger.error(e.getMessage(), e);
+        }
+        return message;
+    }
+
     @RequestMapping(value = "/api/reds", method = RequestMethod.GET)
     public @ResponseBody ResponseMessage list(Integer orgId) {
         logger.info("request body ---> " + orgId);
@@ -107,12 +129,15 @@ public class OrgRuleCtrl extends BasicCtrl {
         ResponseMessage message = new ResponseMessage();
         try {
             RedDetail redDetail = redDetailService.getRedMoney(id);
-            redDetailService.saveHistory(redDetail, phone, type);
+            Integer historyId=redDetailService.saveHistory(redDetail, phone, type);
             //判断是否第一次获取这个红包规则的分享者，是的话发送短信,此处暂时隐藏，等短信报备了放开
 //            if(type.intValue()== EntityCode.USER_HISTORY_FAIR.intValue()){
 //                redDetailService.sendSms(redDetail,phone);
 //            }
-            message.setData(redDetail.getMoney());
+            RedDetailResponse redDetailResponse=new RedDetailResponse();
+            redDetailResponse.setMoney(redDetail.getMoney());
+            redDetailResponse.setRecordId(historyId);
+            message.setData(redDetailResponse);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {
