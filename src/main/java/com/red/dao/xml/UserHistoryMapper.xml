@@ -126,7 +126,7 @@
   </update>
 
   <select id="findRedIdCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
-    select sum(money)
+    select ifnull(sum(money),0)
     from user_history
     where red_id = #{redId,jdbcType=INTEGER}
   </select>

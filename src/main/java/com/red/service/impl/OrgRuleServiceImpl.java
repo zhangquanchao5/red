@@ -2,6 +2,7 @@ package com.red.service.impl;
 
 import com.red.common.algorithm.RedGenerateUtil;
 import com.red.common.apibean.OrgRuleReq;
+import com.red.common.apibean.response.OrgRuleResponse;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
@@ -72,7 +73,7 @@ public class OrgRuleServiceImpl implements OrgRuleService {
         return orgRuleMapper.selectByPrimaryKey(id);
     }
 
-   public List<OrgRule> findByQuery(OrgRuleReq orgRuleReq) throws Exception{
+   public List<OrgRuleResponse> findByQuery(OrgRuleReq orgRuleReq) throws Exception{
         if (null == orgRuleReq.getId()) {
             throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "id"), ErrorCode.PARAMETER_NOT_ENOUGH);
         }
@@ -85,6 +86,9 @@ public class OrgRuleServiceImpl implements OrgRuleService {
             throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "orgId"), ErrorCode.PARAMETER_NOT_ENOUGH);
         }
 
+        if (null == orgRule.getUserId() || orgRule.getUserId() < 0) {
+            throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "userId"), ErrorCode.PARAMETER_NOT_ENOUGH);
+        }
         if (null == orgRule.getRedCount() || orgRule.getRedCount() < 0) {
             throw new CustomException(messageUtil.getMessage("msg.parameter.notEnough", "redCount"), ErrorCode.PARAMETER_NOT_ENOUGH);
         }

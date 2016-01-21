@@ -3,6 +3,7 @@ package com.red.web;
 import com.alibaba.fastjson.JSON;
 import com.red.common.apibean.OrgRuleReq;
 import com.red.common.apibean.UserHistoryPageReq;
+import com.red.common.apibean.response.OrgRuleResponse;
 import com.red.common.apibean.response.RedDetailResponse;
 import com.red.common.bean.ResponseMessage;
 import com.red.common.code.EntityCode;
@@ -17,6 +18,10 @@ import com.red.service.UserHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Star on 2015/12/24.
@@ -84,11 +89,18 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
 
-    @RequestMapping(value = "/api/reds/batch", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage batch(OrgRuleReq orgRuleReq) {
+    @RequestMapping(value = "/api/reds/batch", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage batch(@RequestBody OrgRuleReq orgRuleReq) {
         ResponseMessage message = new ResponseMessage();
         try {
-            message.setData(orgRuleService.findByQuery(orgRuleReq));
+            List<OrgRuleResponse> orgRuleList=orgRuleService.findByQuery(orgRuleReq);
+            Map<String,OrgRuleResponse> orgRuleMap=new HashMap<String,OrgRuleResponse>();
+            if(orgRuleList!=null&&orgRuleList.size()>0){
+                for(OrgRuleResponse orgRule:orgRuleList){
+                    orgRuleMap.put(orgRule.getId().toString(),orgRule);
+                }
+            }
+            message.setData(orgRuleMap);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {

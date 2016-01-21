@@ -1,6 +1,7 @@
 package com.red.service;
 
 import com.red.common.apibean.OrgRuleReq;
+import com.red.common.apibean.response.OrgRuleResponse;
 import com.red.domain.OrgRule;
 
 import java.util.List;
@@ -44,5 +45,5 @@ public interface OrgRuleService {
      * @return the list
      * @throws Exception the exception
      */
-    List<OrgRule> findByQuery(OrgRuleReq orgRuleReq) throws Exception;
+    List<OrgRuleResponse> findByQuery(OrgRuleReq orgRuleReq) throws Exception;
 }

@@ -27,6 +27,16 @@ public class ErrorCode {
     public static final int RED_DETAIL_INVALIDE = 4002;
 
     /**
+     * 过期红包
+     */
+    public static final int RED_EXPIRE_DATE = 4003;
+
+    /**
+     * 红包领取完毕
+     */
+    public static final int RED_OVER_DATE = 4004;
+
+    /**
      * 存在此账号
      */
     public static final int USER_EXITS=2003;

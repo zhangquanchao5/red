@@ -65,9 +65,9 @@ public class RedRuleScanTask {
                     RedLogger.recBusinessLog("RedRuleScanTask money refund [orgId="+orgRule.getOrgId()+"] [refund="+refund+"]");
                     OrgRechargeBean orgRechargeBean=new OrgRechargeBean();
                     orgRechargeBean.setAccountBIllType(PrefixCode.API_ACCOUNT_RED_CODE);
-                    orgRechargeBean.setOrgId(DESUtils.encrypt(orgRule.getOrgId().toString(), DESUtils.secretKey));
+                    orgRechargeBean.setOrgId(DESUtils.encrypt(orgRule.getUserId().toString(), DESUtils.secretKey));
                     orgRechargeBean.setMoney(DESUtils.encrypt(refund + SplitCode.SPLIT_BLANK, DESUtils.secretKey));
-                    orgRechargeBean.setAuthKey(EncryptUtil.encrypt(orgRule.getOrgId() + SplitCode.SPLIT_BLANK + refund, EncryptUtil.MD5));
+                    orgRechargeBean.setAuthKey(EncryptUtil.encrypt(orgRule.getUserId() + SplitCode.SPLIT_BLANK + refund, EncryptUtil.MD5));
 
                     HttpSendResult httpSendResult= HttpUtil.executePost(PropertiesUtil.getString("USER.HEADER.ORG.RECHARGE"), JSON.toJSONString(orgRechargeBean),PrefixCode.API_CONTENT_TYPE);
                     if(httpSendResult.getStatusCode()==200){
@@ -79,7 +79,7 @@ public class RedRuleScanTask {
                             RefundHistory refundHistory=new RefundHistory();
                             refundHistory.setCostMoney(costFund);
                             refundHistory.setCreateTime(new Date());
-                            refundHistory.setOrgId(orgRule.getOrgId());
+                            refundHistory.setOrgId(orgRule.getUserId());
                             refundHistory.setRedId(orgRule.getId());
                             refundHistory.setRedMoney(total-useRed);
 

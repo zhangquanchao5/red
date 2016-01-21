@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.red.domain.OrgRule" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="red_count" property="redCount" jdbcType="INTEGER" />
     <result column="average_price" property="averagePrice" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="BIT" />
@@ -14,7 +15,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, org_id, red_count, average_price, type, receive_red_seq, cost, expire_time, create_time,status
+    id, org_id, red_count, average_price, type, receive_red_seq, cost, expire_time, create_time,status,user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -29,31 +30,33 @@
     where org_id = #{_parameter,jdbcType=INTEGER} and status = 1
   </select>
 
-  <select id="findByQuery" resultMap="BaseResultMap" parameterType="com.red.common.apibean.OrgRuleReq" >
+  <select id="findByQuery"  resultType="com.red.common.apibean.response.OrgRuleResponse" parameterType="com.red.common.apibean.OrgRuleReq" >
     select
-    <include refid="Base_Column_List" />
-    from org_rule
+    o.id,  o.org_id as orgId,  o.red_count as redCount,  o.average_price as averagePrice ,  o.type,  o.receive_red_seq as receiveRedSeq,
+    o.cost,  o.expire_time as expireTime,  o.create_time as createTime, o.status,
+    (o.red_count*o.average_price - (select sum(uh.money) from user_history uh where uh.red_id=o.id )) as overplusPrice
+    from org_rule o
     where 1=1
     <if test="id!=null and id!=''">
-      and id in
+      and o.id in
       <foreach collection="id" item="item" index="index"
                open="(" close=")" separator=",">
         #{item}
       </foreach>
     </if>
     <if test="type!=null and type!=''">
-     and  type=#{type}
+     and  o.type=#{type}
     </if>
     <if test="createTimeBegin!=null and createTimeBegin!='' and createTimeEnd!=null and createTimeEnd!='' ">
-      and create_time between str_to_date(#{createTimeBegin},'%Y-%m-%d %H:%i') and
+      and o.create_time between str_to_date(#{createTimeBegin},'%Y-%m-%d %H:%i') and
       str_to_date(#{createTimeEnd},'%Y-%m-%d %H:%i')
     </if>
     <choose>
       <when test="status!=null and status==0">
-         and status=0
+         and o.status=0
       </when>
       <when test="status!=null and status==1">
-        and status!=0
+        and o.status!=0
       </when>
     </choose>
   </select>
@@ -68,11 +71,11 @@
     </selectKey>
     insert into org_rule (id, org_id, red_count, 
       average_price, type, receive_red_seq, 
-      cost, expire_time, create_time
+      cost, expire_time, create_time,user_id
       )
     values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{redCount,jdbcType=INTEGER}, 
       #{averagePrice,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{receiveRedSeq,jdbcType=INTEGER}, 
-      #{cost,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      #{cost,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},#{userId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="RedRule" useGeneratedKeys="true" keyProperty="id" >
@@ -106,6 +109,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=INTEGER},
@@ -132,6 +138,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>

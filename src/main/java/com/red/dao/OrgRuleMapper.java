@@ -1,6 +1,7 @@
 package com.red.dao;
 
 import com.red.common.apibean.OrgRuleReq;
+import com.red.common.apibean.response.OrgRuleResponse;
 import com.red.domain.OrgRule;
 
 import java.util.List;
@@ -84,5 +85,5 @@ public interface OrgRuleMapper {
      * @param orgRuleReq the org rule req
      * @return the list
      */
-    List<OrgRule> findByQuery(OrgRuleReq orgRuleReq);
+    List<OrgRuleResponse> findByQuery(OrgRuleReq orgRuleReq);
 }

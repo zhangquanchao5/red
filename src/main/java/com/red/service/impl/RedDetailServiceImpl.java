@@ -60,6 +60,14 @@ public class RedDetailServiceImpl implements RedDetailService {
             throw new CustomException(messageUtil.getMessage("msg.red.invalid", "orgRule="+redId), ErrorCode.RED_INVALIDE);
         }
 
+        if (orgRule.getExpireTime().getTime()<new Date().getTime()) {
+            throw new CustomException(messageUtil.getMessage("msg.redDetail.expire.time", "orgRule="+redId), ErrorCode.RED_EXPIRE_DATE);
+        }
+
+        if(orgRule.getReceiveRedSeq()==0){
+            throw new CustomException(messageUtil.getMessage("msg.redDetail.over", "orgRule="+redId), ErrorCode.RED_OVER_DATE);
+        }
+
         RedDetail redDetail = redDetailMapper.getByRedIdAndIndex(orgRule.getId(), orgRule.getReceiveRedSeq());
 
         if (null == redDetail) {

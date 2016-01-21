@@ -1,4 +1,4 @@
-package com.red.domain;
+package com.red.common.apibean.response;
 
 import org.apache.ibatis.type.Alias;
 
@@ -7,13 +7,11 @@ import java.util.Date;
 /**
  * The type Org rule.
  */
-@Alias("RedRule")
-public class OrgRule {
+
+public class OrgRuleResponse {
     private Integer id;
 
     private Integer orgId;
-
-    private Integer userId;
 
     private Integer redCount;
 
@@ -31,12 +29,14 @@ public class OrgRule {
 
     private Integer status;
 
-    public Integer getUserId() {
-        return userId;
+    private Integer  overplusPrice;
+
+    public Integer getOverplusPrice() {
+        return overplusPrice;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setOverplusPrice(Integer overplusPrice) {
+        this.overplusPrice = overplusPrice;
     }
 
     public Integer getStatus() {
