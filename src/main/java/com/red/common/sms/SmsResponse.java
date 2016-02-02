@@ -5,9 +5,34 @@ package com.red.common.sms;
  */
 public class SmsResponse {
     private String code;
-    private String smsid;
+    private String taskID;
     private String msg;
+    private String remainpoint;
+    private String successCounts;
 
+    public String getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(String taskID) {
+        this.taskID = taskID;
+    }
+
+    public String getSuccessCounts() {
+        return successCounts;
+    }
+
+    public void setSuccessCounts(String successCounts) {
+        this.successCounts = successCounts;
+    }
+
+    public String getRemainpoint() {
+        return remainpoint;
+    }
+
+    public void setRemainpoint(String remainpoint) {
+        this.remainpoint = remainpoint;
+    }
 
     public String getCode() {
         return code;
@@ -17,13 +42,7 @@ public class SmsResponse {
         this.code = code;
     }
 
-    public String getSmsid() {
-        return smsid;
-    }
 
-    public void setSmsid(String smsid) {
-        this.smsid = smsid;
-    }
 
     public String getMsg() {
         return msg;

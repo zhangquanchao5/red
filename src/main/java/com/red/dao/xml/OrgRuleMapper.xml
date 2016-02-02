@@ -34,7 +34,7 @@
     select
     o.id,  o.org_id as orgId,  o.red_count as redCount,  o.average_price as averagePrice ,  o.type,  o.receive_red_seq as receiveRedSeq,
     o.cost,  o.expire_time as expireTime,  o.create_time as createTime, o.status,
-    (o.red_count*o.average_price - (select sum(uh.money) from user_history uh where uh.red_id=o.id )) as overplusPrice
+    (o.red_count*o.average_price - ifnull((select sum(uh.money) from user_history uh where uh.red_id=o.id ),0) ) as overplusPrice
     from org_rule o
     where 1=1
     <if test="id!=null and id!=''">

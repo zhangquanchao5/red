@@ -1,5 +1,6 @@
 package com.red.service;
 
+import com.red.common.apibean.response.RedDetailResponse;
 import com.red.domain.RedDetail;
 
 /**
@@ -23,15 +24,9 @@ public interface RedDetailService {
      * @param type      the type
      * @throws Exception the exception
      */
-    Integer saveHistory(RedDetail redDetail, String phone, Integer type) throws Exception;
+     RedDetailResponse saveHistory(Integer redId, String phone, Integer type,RedDetailResponse redDetailResponse) throws Exception;
 
-    /**
-     * 判断是否第一次分享后需要发送短信，恭喜分享获取红包
-     * @param redDetail
-     * @param phone
-     * @throws Exception
-     */
-    void sendSms(RedDetail redDetail, String phone) throws Exception;
+
 
     void saveTest() throws Exception;
 }

@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by huichao on 2015/7/16.
  */
 public class SendSm {
-    private static String Url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit";
+    private static String Url = "http://121.43.107.8:8888/sms.aspx";
     public static final String SUCCE_CODE="2";
 
     public synchronized static SmsResponse sendSms(String mobile,String content){
@@ -28,11 +28,13 @@ public class SendSm {
         SmsResponse smsResponse=new SmsResponse();
 
         NameValuePair[] data = {//提交短信
+                new NameValuePair("action", "send"),
+                new NameValuePair("userid", PropertiesUtil.getString("SEND.ENTERPRISEID")),
                 new NameValuePair("account", PropertiesUtil.getString("SEND.USERNAME")),
                 new NameValuePair("password",PropertiesUtil.getString("SEND.PWD")), //密码可以使用明文密码或使用32位MD5加密
-                //new NameValuePair("password", util.StringUtil.MD5Encode("密码")),
                 new NameValuePair("mobile", mobile),
                 new NameValuePair("content", content),
+                new NameValuePair("sendTime", ""),
         };
 
         method.setRequestBody(data);
@@ -43,13 +45,14 @@ public class SendSm {
 
             String SubmitResult =method.getResponseBodyAsString();
 
-            //System.out.println(SubmitResult);
 
             Document doc = DocumentHelper.parseText(SubmitResult);
             Element root = doc.getRootElement();
-            smsResponse.setCode(root.elementText("code"));
-            smsResponse.setMsg(root.elementText("msg"));
-            smsResponse.setSmsid(root.elementText("smsid"));
+            smsResponse.setCode(root.elementText("returnstatus"));
+            smsResponse.setMsg(root.elementText("message"));
+            smsResponse.setTaskID(root.elementText("taskID"));
+            smsResponse.setRemainpoint(root.elementText("remainpoint"));
+            smsResponse.setSuccessCounts(root.elementText("successCounts"));
         } catch (HttpException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -62,7 +65,7 @@ public class SendSm {
     }
 
     public static void main(String []args){
-        System.out.println(JSON.toJSONString(sendSms("15201175465","您的校验码是：【123】。请不要把校验码泄露给其他人。如非本人操作，可不用理会！")));
+        System.out.println(JSON.toJSONString(sendSms("15201175465","恭喜获得一个分享现金红包，已放入您的账户，赶快下载APP拆包，参与活动还有更多红包福利t.cn/R4fiyEr；回复TD退订【有你学】")));
     }
 
 

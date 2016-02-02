@@ -18,7 +18,17 @@ public class UserHistory {
 
     private Date createTime;
 
+    private Date takeTime;
+
     private Integer receive;
+
+    public Date getTakeTime() {
+        return takeTime;
+    }
+
+    public void setTakeTime(Date takeTime) {
+        this.takeTime = takeTime;
+    }
 
     public Integer getReceive() {
         return receive;

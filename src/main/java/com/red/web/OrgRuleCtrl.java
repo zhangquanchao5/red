@@ -140,15 +140,10 @@ public class OrgRuleCtrl extends BasicCtrl {
         logger.info("request body ---> " + type);
         ResponseMessage message = new ResponseMessage();
         try {
-            RedDetail redDetail = redDetailService.getRedMoney(id);
-            Integer historyId=redDetailService.saveHistory(redDetail, phone, type);
-            //判断是否第一次获取这个红包规则的分享者，是的话发送短信,此处暂时隐藏，等短信报备了放开
-//            if(type.intValue()== EntityCode.USER_HISTORY_FAIR.intValue()){
-//                redDetailService.sendSms(redDetail,phone);
-//            }
+            //RedDetail redDetail = redDetailService.getRedMoney(id);
             RedDetailResponse redDetailResponse=new RedDetailResponse();
-            redDetailResponse.setMoney(redDetail.getMoney());
-            redDetailResponse.setRecordId(historyId);
+            redDetailResponse=redDetailService.saveHistory(id, phone, type,redDetailResponse);
+
             message.setData(redDetailResponse);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
