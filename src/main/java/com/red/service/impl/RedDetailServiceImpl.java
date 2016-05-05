@@ -3,6 +3,7 @@ package com.red.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.red.common.RedLogger;
 import com.red.common.apibean.ApiResponseMessage;
+import com.red.common.apibean.UserHistoryReq;
 import com.red.common.apibean.response.RedDetailResponse;
 import com.red.common.bean.RechargeReq;
 import com.red.common.code.EntityCode;
@@ -79,7 +80,7 @@ public class RedDetailServiceImpl implements RedDetailService {
     }
 
     @Override
-    public synchronized RedDetailResponse saveHistory(Integer redId, String phone, Integer type,RedDetailResponse redDetailResponse) throws Exception{
+    public synchronized RedDetailResponse saveHistory(Integer redId, String phone, UserHistoryReq userHistoryReq,RedDetailResponse redDetailResponse) throws Exception{
         OrgRule orgRule = orgRuleMapper.selectByPrimaryKey(redId);
         if (null == orgRule || orgRule.getStatus() != EntityCode.RED_STATUS_VALIDE) {
             throw new CustomException(messageUtil.getMessage("msg.parameter.invalid", "orgRule="+redId), ErrorCode.PARAMETER_NOT_ENOUGH);
@@ -109,7 +110,10 @@ public class RedDetailServiceImpl implements RedDetailService {
         userHistory.setMobile(phone);
         userHistory.setMoney(redDetail.getMoney());
         userHistory.setCreateTime(new Date());
-        userHistory.setType(type.byteValue());
+        userHistory.setType(userHistoryReq.getType().byteValue());
+        userHistory.setWechatId(userHistoryReq.getWechatId());
+        userHistory.setWechatUrl(userHistoryReq.getWechatUrl());
+        userHistory.setWechatNick(userHistoryReq.getWechatNick());
        // userHistory.setReceive(EntityCode.USER_RED_HASNO_RECEIVE);
         //等拆取记上后，下面的逻辑隐藏，上面放开
         userHistory.setReceive(EntityCode.USER_RED_HAS_RECEIVE);

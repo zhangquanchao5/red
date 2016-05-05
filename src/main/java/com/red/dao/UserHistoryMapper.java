@@ -1,6 +1,10 @@
 package com.red.dao;
 
 import com.red.common.apibean.UserHistoryPageReq;
+import com.red.common.apibean.response.OrgOrRedResponse;
+import com.red.common.apibean.response.StatisticsComResponse;
+import com.red.common.apibean.response.StatisticsRedResponse;
+import com.red.common.apibean.response.UserHistoryResponse;
 import com.red.domain.UserHistory;
 
 import java.util.List;
@@ -94,4 +98,44 @@ public interface UserHistoryMapper {
      * @return the list
      */
     List<UserHistory> findNoReceiveList(String mobile);
+
+    /**
+     * Find statistics history.
+     *
+     * @param userHistoryPageReq the user history page req
+     * @return the list
+     */
+    List<StatisticsRedResponse> findStatisticsHistory(UserHistoryPageReq userHistoryPageReq);
+
+    /**
+     * Find statistics history nums.
+     *
+     * @param userHistoryPageReq the user history page req
+     * @return the int
+     */
+    int findStatisticsHistoryNums(UserHistoryPageReq userHistoryPageReq);
+
+    /**
+     * Find statistics history count.
+     *
+     * @param userHistoryPageReq the user history page req
+     * @return the int
+     */
+    OrgOrRedResponse findStatisticsHistoryCount(UserHistoryPageReq userHistoryPageReq);
+
+    /**
+     * Find statistics history all.
+     *
+     * @param userHistoryPageReq the user history page req
+     * @return the statistics com response
+     */
+    StatisticsComResponse findStatisticsHistoryAll(UserHistoryPageReq userHistoryPageReq);
+
+    /**
+     * Statistics history detail.
+     *
+     * @param map the map
+     * @return the list
+     */
+    List<UserHistoryResponse>  statisticsHistoryDetail(Map<String,String> map);
 }

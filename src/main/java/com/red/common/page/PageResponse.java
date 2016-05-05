@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by huichao on 2015/9/23.
- * @param <T>  the type parameter
+ * @param <T>   the type parameter
  */
 public class PageResponse<T> {
     /**
@@ -15,6 +15,19 @@ public class PageResponse<T> {
      * The Total.
      */
     public Integer total;
+
+    /**
+     * The Sum.
+     */
+    public Integer sumMoney;
+
+    public Integer getSumMoney() {
+        return sumMoney;
+    }
+
+    public void setSumMoney(Integer sumMoney) {
+        this.sumMoney = sumMoney;
+    }
 
     /**
      * Gets list.

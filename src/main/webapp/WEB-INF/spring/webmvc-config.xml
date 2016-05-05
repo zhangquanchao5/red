@@ -61,6 +61,8 @@
             <mvc:exclude-mapping path="/api/reds/**/user/**"/>
             <mvc:exclude-mapping path="/api/reds/batch"/>
             <mvc:exclude-mapping path="/api/userHistory/user/**"/>
+            <mvc:exclude-mapping path="/api/userHistory/statistics"/>
+            <mvc:exclude-mapping path="/api/userHistory/statistics/**"/>
             <bean class="com.red.filter.AuthorityInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>

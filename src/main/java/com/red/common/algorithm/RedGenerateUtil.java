@@ -40,6 +40,31 @@ public class RedGenerateUtil {
 
     }
 
+    public static int[] generate(int average,int redCount,int totalMoney,boolean type) {
+        float scale = 1;
+
+        int moneySum = totalMoney;
+//        if (null != orgRule.getCost() && orgRule.getCost() > 0) {
+//            moneySum += orgRule.getCost();
+//        }
+
+        if (type) {
+            scale = RED_SCALE[redCount%2];
+            logger.info("Scale ---> "+scale);
+
+            return resultReturn(scale, average, moneySum, redCount);
+        }else{
+            logger.info("Scale ---> "+scale);
+            int[] result = new int[redCount];
+            for(int i=0;i<redCount;i++){
+                result[i]=average;
+            }
+
+            return  result;
+        }
+
+    }
+
     /**
      * Generate reds int [ ].
      *

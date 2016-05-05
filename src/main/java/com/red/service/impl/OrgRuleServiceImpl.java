@@ -2,15 +2,19 @@ package com.red.service.impl;
 
 import com.red.common.algorithm.RedGenerateUtil;
 import com.red.common.apibean.OrgRuleReq;
+import com.red.common.apibean.RedAddReq;
 import com.red.common.apibean.response.OrgRuleResponse;
+import com.red.common.bean.ResponseMessage;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
 import com.red.common.exception.CustomException;
 import com.red.common.util.MessageUtil;
 import com.red.dao.OrgRuleMapper;
+import com.red.dao.RechargeHistoryMapper;
 import com.red.dao.RedDetailMapper;
 import com.red.domain.OrgRule;
 import com.red.domain.RedDetail;
+import com.red.model.RechargeHistory;
 import com.red.service.OrgRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,9 @@ public class OrgRuleServiceImpl implements OrgRuleService {
     @Autowired
     private RedDetailMapper redDetailMapper;
 
+    @Autowired
+    private RechargeHistoryMapper rechargeHistoryMapper;
+
     @Override
     public Integer createOrgRule(OrgRule orgRule) throws Exception {
         //save Red
@@ -52,7 +59,69 @@ public class OrgRuleServiceImpl implements OrgRuleService {
             redDetail.setIndex(i+1);
             redDetailMapper.insertSelective(redDetail);
         }
+
+        RechargeHistory rechargeHistory=new RechargeHistory();
+        rechargeHistory.setOrgId(orgRule.getOrgId());
+        rechargeHistory.setCostMoney(orgRule.getCost());
+        rechargeHistory.setRedId(orgRule.getId());
+        rechargeHistory.setCreateTime(new Date());
+        rechargeHistory.setRedNums(orgRule.getRedCount());
+        rechargeHistory.setRedMoney(orgRule.getRedCount()*orgRule.getAveragePrice());
+        rechargeHistoryMapper.insertSelective(rechargeHistory);
+
         return orgRule.getId();
+    }
+
+    public ResponseMessage updateOrgRule(RedAddReq redAddReq, ResponseMessage message ) throws Exception{
+        //判断红包规则是否存在
+        OrgRule orgRule=orgRuleMapper.selectByPrimaryKey(redAddReq.getRedId());
+        if(orgRule==null){
+            message.setCode(ErrorCode.RED_INVALIDE);
+            return message;
+        }
+        //判断是否过期
+        if(orgRule.getStatus()!=EntityCode.RED_STATUS_VALIDE){
+            message.setCode(ErrorCode.RED_INVALIDE);
+            return message;
+        }
+        //判断平均单价是否相同
+        if(redAddReq.getTotal()/redAddReq.getRedCount()!=orgRule.getAveragePrice().intValue()){
+            message.setCode(ErrorCode.RED_PRICE_NO_SAME);
+            return message;
+        }
+
+        //创建红包明细
+        RedDetail redDetail;
+        int[] moneyList = RedGenerateUtil.generate(orgRule.getAveragePrice().intValue(),redAddReq.getRedCount().intValue(),redAddReq.getTotal().intValue(),orgRule.getType());
+        for (int i = 0;i < moneyList.length;i++) {
+            redDetail = new RedDetail();
+            redDetail.setCreateTime(new Date());
+            redDetail.setRedId(orgRule.getId());
+            redDetail.setMoney(moneyList[i]);
+            redDetail.setIndex(i+1+orgRule.getRedCount());
+            redDetailMapper.insertSelective(redDetail);
+        }
+
+        //修改红包规则
+        orgRule.setRedCount(orgRule.getRedCount()+redAddReq.getRedCount());
+        orgRule.setCost(orgRule.getCost()+redAddReq.getCost());
+        orgRule.setReceiveRedSeq(orgRule.getReceiveRedSeq()+redAddReq.getRedCount());
+        orgRuleMapper.updateByPrimaryKeySelective(orgRule);
+
+
+
+        RechargeHistory rechargeHistory=new RechargeHistory();
+        rechargeHistory.setOrgId(orgRule.getOrgId());
+        rechargeHistory.setCostMoney(redAddReq.getCost());
+        rechargeHistory.setRedId(redAddReq.getRedId());
+        rechargeHistory.setCreateTime(new Date());
+        rechargeHistory.setRedNums(redAddReq.getRedCount());
+        rechargeHistory.setRedMoney(redAddReq.getRedCount()*orgRule.getAveragePrice());
+        rechargeHistoryMapper.insertSelective(rechargeHistory);
+
+        message.setData(orgRule);
+        message.setCode(ErrorCode.SUCCESS);
+        return message;
     }
 
     @Override

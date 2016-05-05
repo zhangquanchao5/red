@@ -1,5 +1,6 @@
 package com.red.service;
 
+import com.red.common.apibean.UserHistoryReq;
 import com.red.common.apibean.response.RedDetailResponse;
 import com.red.domain.RedDetail;
 
@@ -24,7 +25,7 @@ public interface RedDetailService {
      * @param type      the type
      * @throws Exception the exception
      */
-     RedDetailResponse saveHistory(Integer redId, String phone, Integer type,RedDetailResponse redDetailResponse) throws Exception;
+     RedDetailResponse saveHistory(Integer redId, String phone,UserHistoryReq userHistoryReq,RedDetailResponse redDetailResponse) throws Exception;
 
 
 

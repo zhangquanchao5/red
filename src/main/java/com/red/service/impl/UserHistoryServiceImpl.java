@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.red.common.RedLogger;
 import com.red.common.apibean.ApiResponseMessage;
 import com.red.common.apibean.UserHistoryPageReq;
+import com.red.common.apibean.response.OrgOrRedResponse;
+import com.red.common.apibean.response.StatisticsComResponse;
+import com.red.common.apibean.response.StatisticsRedResponse;
+import com.red.common.apibean.response.UserHistoryResponse;
 import com.red.common.bean.RechargeReq;
 import com.red.common.code.EntityCode;
 import com.red.common.code.ErrorCode;
@@ -50,13 +54,52 @@ public class UserHistoryServiceImpl implements UserHistoryService {
         return pageResponse;
     }
 
+    public   PageResponse  statisticsHistory(UserHistoryPageReq userHistoryPageReq){
+        userHistoryPageReq.setPageStart((userHistoryPageReq.getCurrentPage() - 1) * userHistoryPageReq.getCurrentSize());
+
+        PageResponse pageResponse = new PageResponse();
+
+        pageResponse.setTotal(userHistoryMapper.findStatisticsHistoryNums(userHistoryPageReq));
+        pageResponse.setList(userHistoryMapper.findStatisticsHistory(userHistoryPageReq));
+
+        return pageResponse;
+
+    }
+
+    public  List<UserHistoryResponse>  statisticsHistoryDetail(Integer redId, String mobile,String type){
+        Map<String,String> map=new HashMap<String, String>();
+        map.put("redId",redId.toString());
+        map.put("mobile", mobile);
+        map.put("type", type);
+
+        return userHistoryMapper.statisticsHistoryDetail(map);
+    }
+
+    public OrgOrRedResponse statisticsHistoryCount(UserHistoryPageReq userHistoryPageReq){
+        return userHistoryMapper.findStatisticsHistoryCount(userHistoryPageReq);
+    }
+
+    public StatisticsComResponse findStatisticsHistoryAll(UserHistoryPageReq userHistoryPageReq){
+        return userHistoryMapper.findStatisticsHistoryAll(userHistoryPageReq);
+
+    }
+
     public PageResponse findUserHistorys(UserHistoryPageReq userHistoryPageReq, String mobile) {
         userHistoryPageReq.setPageStart((userHistoryPageReq.getCurrentPage() - 1) * userHistoryPageReq.getCurrentSize());
         userHistoryPageReq.setMobile(mobile);
 
         PageResponse pageResponse = new PageResponse();
         pageResponse.setTotal(userHistoryMapper.findPageCount(userHistoryPageReq));
-        pageResponse.setList(userHistoryMapper.findPageResponse(userHistoryPageReq));
+        List<UserHistory> list=userHistoryMapper.findPageResponse(userHistoryPageReq);
+        int total=0;
+        if(list!=null&&list.size()>0){
+
+            for(UserHistory userHistory:list){
+                total=total+userHistory.getMoney().intValue();
+            }
+        }
+        pageResponse.setSumMoney(total);
+        pageResponse.setList(list);
 
         return pageResponse;
     }

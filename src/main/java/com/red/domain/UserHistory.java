@@ -10,6 +10,12 @@ public class UserHistory {
 
     private Integer redId;
 
+    private String wechatId;
+
+    private String wechatUrl;
+
+    private String wechatNick;
+
     private String mobile;
 
     private Integer money;
@@ -21,6 +27,30 @@ public class UserHistory {
     private Date takeTime;
 
     private Integer receive;
+
+    public String getWechatUrl() {
+        return wechatUrl;
+    }
+
+    public void setWechatUrl(String wechatUrl) {
+        this.wechatUrl = wechatUrl;
+    }
+
+    public String getWechatNick() {
+        return wechatNick;
+    }
+
+    public void setWechatNick(String wechatNick) {
+        this.wechatNick = wechatNick;
+    }
+
+    public String getWechatId() {
+        return wechatId;
+    }
+
+    public void setWechatId(String wechatId) {
+        this.wechatId = wechatId;
+    }
 
     public Date getTakeTime() {
         return takeTime;

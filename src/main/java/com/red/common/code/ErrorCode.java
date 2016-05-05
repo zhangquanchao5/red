@@ -37,6 +37,12 @@ public class ErrorCode {
     public static final int RED_OVER_DATE = 4004;
 
     /**
+     * 红包单价不一致
+     */
+    public static final int RED_PRICE_NO_SAME = 4005;
+
+
+    /**
      * 存在此账号
      */
     public static final int USER_EXITS=2003;

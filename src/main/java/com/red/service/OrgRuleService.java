@@ -1,7 +1,9 @@
 package com.red.service;
 
 import com.red.common.apibean.OrgRuleReq;
+import com.red.common.apibean.RedAddReq;
 import com.red.common.apibean.response.OrgRuleResponse;
+import com.red.common.bean.ResponseMessage;
 import com.red.domain.OrgRule;
 
 import java.util.List;
@@ -19,6 +21,15 @@ public interface OrgRuleService {
      * @throws Exception the exception
      */
     Integer createOrgRule(OrgRule orgRule) throws Exception;
+
+    /**
+     * 红包续费接口
+     * @param redAddReq the red add req
+     * @param message the message
+     * @return the response message
+     * @throws Exception the exception
+     */
+    ResponseMessage updateOrgRule(RedAddReq redAddReq, ResponseMessage message ) throws Exception;
 
     /**
      * Gets org rules.

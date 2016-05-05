@@ -10,9 +10,12 @@
     <result column="receive" property="receive" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="take_time" property="takeTime" jdbcType="TIMESTAMP" />
+    <result column="wechat_id" property="wechatId" jdbcType="VARCHAR" />
+    <result column="wechat_url" property="wechatUrl" jdbcType="VARCHAR" />
+    <result column="wechat_nick" property="wechatNick" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, red_id, mobile, money, type, create_time,receive,take_time
+    id, red_id, mobile, money, type, create_time,receive,take_time,wechat_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,11 +40,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user_history (id, red_id, mobile, 
-      money, type, create_time,receive,take_time
+      money, type, create_time,receive,take_time,wechat_id,wechat_url,wechat_nick
       )
     values (#{id,jdbcType=INTEGER}, #{redId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, 
-      #{money,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{receive,jdbcType=TINYINT}, #{takeTime,jdbcType=TIMESTAMP}
-      )
+      #{money,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{receive,jdbcType=TINYINT}, #{takeTime,jdbcType=TIMESTAMP}, #{wechatId,jdbcType=VARCHAR}
+    , #{wechatUrl,jdbcType=VARCHAR}, #{wechatNick,jdbcType=VARCHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.red.domain.UserHistory" useGeneratedKeys="true" keyProperty="id" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -68,6 +72,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="wechatId != null" >
+        wechat_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{id,jdbcType=INTEGER},
@@ -88,6 +95,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wechatId != null" >
+        #{wechatId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -115,6 +125,9 @@
       <if test="takeTime != null" >
         take_time = #{takeTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="wechatId != null" >
+        wechat_id = #{wechatId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -122,6 +135,7 @@
     update user_history
     set red_id = #{redId,jdbcType=INTEGER},
       mobile = #{mobile,jdbcType=VARCHAR},
+      wechat_id = #{wechatId,jdbcType=VARCHAR},
       money = #{money,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
       receive = #{receive,jdbcType=TINYINT},
@@ -134,6 +148,72 @@
     select ifnull(sum(money),0)
     from user_history
     where red_id = #{redId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findStatisticsHistoryNums" parameterType="com.red.common.apibean.UserHistoryPageReq" resultType="java.lang.Integer">
+   select count(1) from ( select
+    uh.mobile
+    from user_history uh
+    where 1 = 1
+    and uh.type=2
+    and uh.receive=1
+    <if test="orgId != null">
+      and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
+    </if>
+
+    <if test="redId != null">
+      and uh.red_id=#{redId}
+    </if>
+    group by uh.mobile DESC) r
+
+  </select>
+
+  <select id="findStatisticsHistory" parameterType="com.red.common.apibean.UserHistoryPageReq" resultType="com.red.common.apibean.response.StatisticsRedResponse">
+    select
+    uh.mobile as mobile,count(1) as sums,sum(money) as moneys
+    from user_history uh
+    where 1 = 1
+    and uh.type=2
+    and uh.receive=1
+    <if test="orgId != null">
+      and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
+    </if>
+
+    <if test="redId != null">
+      and uh.red_id=#{redId}
+    </if>
+    group by uh.mobile DESC
+    limit #{pageStart},#{currentSize}
+  </select>
+
+  <select id="findStatisticsHistoryAll" parameterType="com.red.common.apibean.UserHistoryPageReq" resultType="com.red.common.apibean.response.StatisticsComResponse">
+    select
+    count(1) as redNums,sum(money) as redMoneys
+    from user_history uh
+    where 1 = 1
+    and uh.type=2
+    and uh.receive=1
+    <if test="orgId != null">
+      and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{orgId})
+    </if>
+
+    <if test="redId != null">
+      and uh.red_id=#{redId}
+    </if>
+
+  </select>
+
+  <select id="findStatisticsHistoryCount" parameterType="com.red.common.apibean.UserHistoryPageReq" resultType="com.red.common.apibean.response.OrgOrRedResponse">
+      select ifnull(sum(o.receive_red_seq),0)  as surplusSums,
+      sum(o.red_count*o.average_price - ifnull((select sum(uh.money) from user_history uh where uh.red_id=o.id ),0))  as surplusMoneys
+      from org_rule o where 1=1
+    <if test="orgId != null">
+     and o.org_id=#{orgId}
+    </if>
+    <if test="redId != null">
+      and o.id=#{redId}
+    </if>
+
   </select>
 
 
@@ -188,6 +268,26 @@
     select count(1)
     from user_history
     where red_id = #{redId,jdbcType=INTEGER} and mobile=#{mobile} and type=2
+  </select>
+
+  <select id="statisticsHistoryDetail" parameterType="java.util.Map" resultType="com.red.common.apibean.response.UserHistoryResponse">
+    select
+    id,  mobile, money, create_time as createTime,wechat_id as wechatId,wechat_url as wechatUrl,wechat_nick as wechatNick
+    from user_history uh
+    where 1 = 1
+    and uh.type=2
+    and uh.receive=1
+    <if test="mobile != null">
+      and uh.mobile=#{mobile}
+    </if>
+    <if test="type!=null and type==1">
+      and uh.red_id=#{redId}
+    </if>
+    <if test="type!=null and type==2">
+      and EXISTS (select 1 from org_rule rule where rule.id=uh.red_id and rule.org_id=#{redId})
+    </if>
+    order by uh.create_time DESC
+
   </select>
 
 </mapper>

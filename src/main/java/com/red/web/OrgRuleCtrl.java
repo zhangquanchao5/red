@@ -2,7 +2,9 @@ package com.red.web;
 
 import com.alibaba.fastjson.JSON;
 import com.red.common.apibean.OrgRuleReq;
+import com.red.common.apibean.RedAddReq;
 import com.red.common.apibean.UserHistoryPageReq;
+import com.red.common.apibean.UserHistoryReq;
 import com.red.common.apibean.response.OrgRuleResponse;
 import com.red.common.apibean.response.RedDetailResponse;
 import com.red.common.bean.ResponseMessage;
@@ -47,6 +49,25 @@ public class OrgRuleCtrl extends BasicCtrl {
             message.setData(redId);
             message.setCode(ErrorCode.SUCCESS);
             message.setMsg(messageUtil.getMessage("msg.process.succ"));
+        } catch (CustomException e) {
+            message.setCode(e.getErrorCode());
+            message.setMsg(e.getMessage());
+            logger.error(e.getMessage(), e);
+        } catch (Exception e) {
+            message.setCode(ErrorCode.ERROR);
+            message.setMsg(messageUtil.getMessage("msg.process.fail"));
+            logger.error(e.getMessage(), e);
+        }
+        return message;
+    }
+
+    @RequestMapping(value = "/api/reds/{redId}", method = RequestMethod.POST)
+    public @ResponseBody ResponseMessage redGo(@PathVariable("redId") Integer redId,@RequestBody  RedAddReq redAddReq) {
+        logger.info("/api/reds/{redId} request body ---> " + JSON.toJSONString(redAddReq));
+        ResponseMessage message = new ResponseMessage();
+        try {
+            message = orgRuleService.updateOrgRule(redAddReq, message);
+//            message.setMsg(messageUtil.getMessage("msg.process.succ"));
         } catch (CustomException e) {
             message.setCode(e.getErrorCode());
             message.setMsg(e.getMessage());
@@ -136,13 +157,13 @@ public class OrgRuleCtrl extends BasicCtrl {
     }
 
     @RequestMapping(value = "/api/reds/{id}/user/{phone}", method = RequestMethod.GET)
-    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone, Integer type) {
-        logger.info("request body ---> " + type);
+    public @ResponseBody ResponseMessage getRedMoney(@PathVariable("id") Integer id, @PathVariable("phone") String phone,UserHistoryReq userHistoryReq) {
+        logger.info("request body ---> " + JSON.toJSONString(userHistoryReq));
         ResponseMessage message = new ResponseMessage();
         try {
             //RedDetail redDetail = redDetailService.getRedMoney(id);
             RedDetailResponse redDetailResponse=new RedDetailResponse();
-            redDetailResponse=redDetailService.saveHistory(id, phone, type,redDetailResponse);
+            redDetailResponse=redDetailService.saveHistory(id, phone, userHistoryReq,redDetailResponse);
 
             message.setData(redDetailResponse);
             message.setCode(ErrorCode.SUCCESS);

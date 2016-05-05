@@ -1,11 +1,11 @@
 package com.red.web;
 
 
+import com.red.common.apibean.response.*;
 import com.red.common.code.ErrorCode;
 import com.alibaba.fastjson.JSON;
 import com.red.common.RedLogger;
 import com.red.common.apibean.UserHistoryPageReq;
-import com.red.common.apibean.response.CommonResponse;
 import com.red.common.page.PageResponse;
 import com.red.common.util.ServletResponseHelper;
 import com.red.domain.UserHistory;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -61,6 +62,50 @@ public class UserHistoryCtrl {
             PageResponse pageResponse=userHistoryService.findUserHistorys(userHistoryPageReq,id);
             commonResponse.setCode(String.valueOf(ErrorCode.SUCCESS));
             commonResponse.setData(pageResponse);
+        }catch (Exception e){
+            e.printStackTrace();
+            commonResponse.setCode(String.valueOf(ErrorCode.ERROR));
+        }
+
+        ServletResponseHelper.outUTF8ToJson(response, JSON.toJSONString(commonResponse));
+    }
+
+
+    @RequestMapping(value = "/userHistory/statistics", method = RequestMethod.GET)
+    public void statisticsHistory(UserHistoryPageReq userHistoryPageReq,HttpServletResponse response) {
+        RedLogger.recBusinessLog("UserHistoryCtrl statisticsHistory content:"+ JSON.toJSONString(userHistoryPageReq));
+        CommonResponse commonResponse=new CommonResponse();
+        try{
+            StatisticsComResponse statisticsComResponse=userHistoryService.findStatisticsHistoryAll(userHistoryPageReq);
+
+            PageResponse  pageResponse=userHistoryService.statisticsHistory(userHistoryPageReq);
+            OrgOrRedResponse orgOrRedResponse=userHistoryService.statisticsHistoryCount(userHistoryPageReq);
+            if(orgOrRedResponse==null){
+                orgOrRedResponse=new OrgOrRedResponse();
+            }
+
+            statisticsComResponse.setOrgOrRedResponse(orgOrRedResponse);
+            statisticsComResponse.setPageResponse(pageResponse);
+            statisticsComResponse.setMobiles(pageResponse.getTotal());
+
+            commonResponse.setCode(String.valueOf(ErrorCode.SUCCESS));
+            commonResponse.setData(statisticsComResponse);
+        }catch (Exception e){
+            e.printStackTrace();
+            commonResponse.setCode(String.valueOf(ErrorCode.ERROR));
+        }
+
+        ServletResponseHelper.outUTF8ToJson(response, JSON.toJSONString(commonResponse));
+    }
+
+    @RequestMapping(value = "/userHistory/statistics/{redId}/{mobile}", method = RequestMethod.GET)
+    public void statisticsHistoryDetail(@PathVariable("redId") Integer redId,@PathVariable("mobile") String mobile,@RequestParam String type, HttpServletResponse response) {
+        RedLogger.recBusinessLog("UserHistoryCtrl statisticsHistoryDetail content:"+ redId+" mobile="+mobile);
+        CommonResponse commonResponse=new CommonResponse();
+        try{
+            List<UserHistoryResponse> userHistories=userHistoryService.statisticsHistoryDetail(redId,mobile,type);
+            commonResponse.setCode(String.valueOf(ErrorCode.SUCCESS));
+            commonResponse.setData(userHistories);
         }catch (Exception e){
             e.printStackTrace();
             commonResponse.setCode(String.valueOf(ErrorCode.ERROR));

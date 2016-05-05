@@ -1,0 +1,27 @@
+{
+    "code": "200",
+    "data": {
+        "mobiles": 31,
+        "orgOrRedResponse": {
+            "surplusMoneys": 113088,
+            "surplusSums": 156
+        },
+        "pageResponse": {
+            "list": [
+                {
+                    "mobile": "18618288542",
+                    "moneys": 7,
+                    "sums": 2
+                },
+                {
+                    "mobile": "18610321250",
+                    "moneys": 71,
+                    "sums": 1
+                }
+            ],
+            "total": 31
+        },
+        "redMoneys": 11440,
+        "redNums": 137
+    }
+}
